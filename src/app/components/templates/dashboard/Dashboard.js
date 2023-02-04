@@ -11,8 +11,7 @@ const Dashboard = () => {
         email: "akshatgadodia@gmail.com",
         password: "qwerty"
       }),
-      credentials: 'include',
-      mode:'cors'
+      // credentials: 'include',
     });
     console.log(data);
     console.log(await data.json());
