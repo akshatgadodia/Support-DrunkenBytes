@@ -11,7 +11,7 @@ const Dashboard = () => {
         email: "akshatgadodia@gmail.com",
         password: "qwerty"
       }),
-      credentials: 'include',
+      // credentials: 'include',
     });
     console.log(data);
     console.log(await data.json());

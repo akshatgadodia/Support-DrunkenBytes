@@ -48,7 +48,7 @@ const SideDrawer = () => {
                 return(
                 <Panel header={data.title} key={idx}>
                   {data.data.map((linkData, index)=>{
-                    return  <Link href={linkData.link} className="side-drawer-link">{linkData.title}</Link>;
+                    return  <Link href={linkData.link} key={linkData.key} className="side-drawer-link">{linkData.title}</Link>;
                     
                   })}
                 </Panel>
