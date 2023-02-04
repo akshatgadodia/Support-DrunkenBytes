@@ -5,6 +5,7 @@
       "title": "NFT",
       "data": [
         {
+          "key": "1-A",
           "title": "Create NFT",
           "link": "/create-nft"
         }
@@ -15,6 +16,7 @@
       "title": "NFT",
       "data": [
         {
+          "key": "2-A",
           "title": "Create NFT",
           "link": "/create-nft"
         }
