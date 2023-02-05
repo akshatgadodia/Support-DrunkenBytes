@@ -1,6 +1,7 @@
 import Head from "next/head";
 import 'antd/dist/reset.css';
 import "../app/styles/globals.css"
+import "../app/styles/antdOverrides.css"
 
 export default function MyApp({ Component, pageProps }) {
   return (
