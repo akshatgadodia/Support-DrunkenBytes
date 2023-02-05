@@ -20,7 +20,7 @@
 .loginDiv{
     background-color: var(--white) !important;
     border-radius: 4px;
-    padding: 38px 0 0;
+    padding: 40px 20px;
     margin-top: 20px;
     box-shadow: 0 0 0 0 rgba(0,0,0,.2),0 0 0 0 rgba(0,0,0,.14),0 0 0 0 rgba(0,0,0,.12)!important;
     border-width: thin;
@@ -37,7 +37,20 @@
 }
 .loginDiv h1{
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 50px;
+}
+.input{
+    height: 50px;
+}
+.input:hover{
+    border-color: var(--purple) !important;
+}
+.button{
+    height: 50px !important;
+    width: 100% !important;
+    background-color: var(--purple);
+    color: var(--white);
+    font-size: 20px;
 }
 @media only screen and (max-width:768px){
     .container{
