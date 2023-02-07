@@ -1,15 +1,39 @@
-import React from "react";
+import React, {useContext} from "react";
 import CookieBar from "./components/CookieBar";
 import styles from "./login.module.css";
 import Image from "next/image";
-import { Button, Checkbox, Form, Input } from "antd";
-import CustomButton from "./../../elements/CustomButton";
+import { Button, Form, Input } from "antd";
+import Link from "next/link";
+import { useHttpClient } from "@/app/hooks/useHttpClient";
+import AppContext from "@/app/context/AppContext";
+import Cookies from 'js-cookie';
+
 const Login = () => {
-  const onFinish = () => {
-    console.log("SUCCESS");
-  };
-  const onFinishFailed = () => {
-    console.log("FAILED");
+  const { error, sendRequest, isLoading } = useHttpClient();
+  const {dispatch} = useContext(AppContext);
+  const onFinish = async values => {
+    console.log(values);
+    try {
+      await sendRequest(
+        "/support-user/login",
+        "POST",
+        JSON.stringify({
+          email: values.email,
+          password: values.password
+        }),
+        {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      );
+      if (!error) {
+        const role = Cookies.get('supportUserRole')
+        dispatch({
+          type: "UserLogin",
+          payload: { role },
+        });
+      }
+    } catch (err) {}
   };
   return (
     <div className={styles.supportLogin}>
@@ -28,13 +52,19 @@ const Login = () => {
             name="basic"
             style={{ maxWidth: "100%" }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
+            autoComplete="on"
           >
             <Form.Item
               name="email"
               rules={[
-                { required: true, message: "Please input your username!" }
+                {
+                  type: "email",
+                  message: "The input is not valid Email!"
+                },
+                {
+                  required: true,
+                  message: "Please input your Email!"
+                }
               ]}
               className={styles.formItem}
             >
@@ -60,6 +90,19 @@ const Login = () => {
               </Button>
             </Form.Item>
           </Form>
+          <p>
+            Read our{" "}
+            <Link href="" className={styles.link}>
+              Terms & Conditions
+            </Link>,{" "}
+            <Link href="" className={styles.link}>
+              Privacy Policy
+            </Link>{" "}
+            and{" "}
+            <Link href="" className={styles.link}>
+              Cookie Policy
+            </Link>
+          </p>
         </div>
       </div>
     </div>
