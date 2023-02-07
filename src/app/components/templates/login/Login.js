@@ -13,7 +13,6 @@ const Login = () => {
   const { error, sendRequest, isLoading } = useHttpClient();
   const { dispatch } = useContext(AppContext);
   const onFinish = async values => {
-    console.log(values);
     try {
       await sendRequest(
         "/support-user/login",
