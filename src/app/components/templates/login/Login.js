@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import CookieBar from "./components/CookieBar";
 import styles from "./login.module.css";
 import Image from "next/image";
@@ -6,11 +6,12 @@ import { Button, Form, Input } from "antd";
 import Link from "next/link";
 import { useHttpClient } from "@/app/hooks/useHttpClient";
 import AppContext from "@/app/context/AppContext";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
+import Loader from "@/app/components/modules/Loader";
 
 const Login = () => {
   const { error, sendRequest, isLoading } = useHttpClient();
-  const {dispatch} = useContext(AppContext);
+  const { dispatch } = useContext(AppContext);
   const onFinish = async values => {
     console.log(values);
     try {
@@ -27,16 +28,17 @@ const Login = () => {
         }
       );
       if (!error) {
-        const role = Cookies.get('supportUserRole')
+        const role = Cookies.get("supportUserRole");
         dispatch({
           type: "UserLogin",
-          payload: { role },
+          payload: { role }
         });
       }
     } catch (err) {}
   };
   return (
     <div className={styles.supportLogin}>
+      <Loader isLoading={isLoading} />
       <CookieBar />
       <div className={styles.container}>
         <div className={styles.logoContainer}>

@@ -1,11 +1,12 @@
-import { useState, useCallback } from "react";
-import { notification } from 'antd';
+import { useState, useCallback, useContext } from "react";
+import { notification } from "antd";
 import baseURL from "@/app/constants/baseURL";
-import "@/app/styles/antdOverrides.css"
+import "@/app/styles/antdOverrides.css";
+import AppContext from "@/app/context/AppContext";
+
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
-//   const [api, contextHolder] = notification.useNotification();
   const sendRequest = useCallback(
     async (url, method = "GET", body = null, headers = {}) => {
       setIsLoading(true);
@@ -14,7 +15,7 @@ export const useHttpClient = () => {
           method,
           body,
           headers,
-          credentials:'include'
+          credentials: "include"
         });
         // console.log(response)
         const responseData = await response.json();
@@ -30,11 +31,11 @@ export const useHttpClient = () => {
         setError(err.message);
         setIsLoading(false);
         notification.error({
-            message: "Error",
-            description: err.message,
-            placement:'top',
-            duration:null,
-            className:"error-notification"
+          message: "Error",
+          description: err.message,
+          placement: "top",
+          duration: null,
+          className: "error-notification"
         });
         throw err;
       }

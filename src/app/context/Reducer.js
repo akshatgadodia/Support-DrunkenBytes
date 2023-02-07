@@ -1,6 +1,6 @@
 export const initialLoggedInDetails = {
   isLoggedIn: false,
-  role: ""
+  role: "",
 };
 
 export const reducer = (state, action) => {
