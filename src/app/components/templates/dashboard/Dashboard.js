@@ -13,24 +13,37 @@ const Dashboard = props => {
         <span>Business Performance</span>
         <hr />
         <div className={styles.performanceContainer}>
-          <PerformanceDisplay
-            src="/images/business-served-icon.png"
-            heading="Business Served"
-            value={`${props.props.businessServed}`}
-            backgroundColor="#f6ba28"
-          />
-          <PerformanceDisplay
-            src="/images/nfts-created.png"
-            heading="NFT's Created"
-            value={`${props.props.nftsCreated}`}
-            backgroundColor="#dd3d63"
-          />
-          <PerformanceDisplay
-            src="/images/net-transaction-value-icon.png"
-            heading="Net Transaction Value"
-            value={`${props.props.netTransactionValue} ETH`}
-            backgroundColor="#55ce8e"
-          />
+          {[
+            {
+              src: "/images/business-served-icon.png",
+              heading: "Business Served",
+              value: props.props.businessServed,
+              backgroundColor: "#f6ba28"
+            },
+            {
+              src: "/images/nfts-created.png",
+              heading: "NFT's Created",
+              value: `${props.props.nftsCreated}`,
+              backgroundColor: "#dd3d63"
+            },
+            {
+              src: "/images/net-transaction-value-icon.png",
+              heading: "Net Transaction Value",
+              value: `${props.props.netTransactionValue} ETH`,
+              backgroundColor: "#55ce8e"
+            }
+          ].map((data,idx) => {
+                return (
+                  <PerformanceDisplay
+                    key={idx}
+                    src={data.src}
+                    heading={data.heading}
+                    value={data.value}
+                    backgroundColor={data.backgroundColor}
+                  />
+                );
+              }
+          )}
         </div>
       </div>
       <div className={styles.middleContainer}>
@@ -38,7 +51,7 @@ const Dashboard = props => {
           ? <div className={styles.middleDiv}>
               <span>Latest News</span>
               <hr />
-              <div className={styles.middleDivContainer}>
+              <div className={styles.middleDivContainer}> 
 
               </div>
             </div>
@@ -50,24 +63,18 @@ const Dashboard = props => {
                   {[
                     {
                       name: "Gas Price",
-                      value: `${Number(props.props.gasPrice).toFixed(2)} gwei`
+                      value: Number(props.props.gasPrice).toFixed(2)
                     },
                     {
                       name: "Avg Block Time",
-                      value: `${Number(props.props.avgBlockTime).toFixed(
-                        2
-                      )} min`
+                      value: Number(props.props.avgBlockTime).toFixed(2)
                     },
                     { name: "Gas Limit", value: `${props.props.gasLimit}` }
                   ].map((data, idx) => {
                     return (
                       <div className={styles.statsDiv} key={idx}>
-                        <p>
-                          {data.name}
-                        </p>
-                        <span>
-                          {data.value}
-                        </span>
+                        <p>{data.name}</p>
+                        <span>{data.value}</span>
                       </div>
                     );
                   })}
@@ -88,7 +95,9 @@ const Dashboard = props => {
         <div className={styles.middleDiv}>
           <span>Messages</span>
           <hr />
-          <div className={styles.middleDivContainer} />
+          <div className={styles.middleDivContainer} >
+
+          </div>
         </div>
       </div>
     </div>

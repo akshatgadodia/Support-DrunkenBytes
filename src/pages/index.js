@@ -57,8 +57,8 @@ export async function getServerSideProps(context) {
         nftsCreated: performanceData.data.nftsCreated,
         netTransactionValue: `${performanceData.data.netTransactionValue}`,
         chartData: chartData,
-        gasPrice: gasData.speeds[3].gasPrice,
-        avgBlockTime: gasData.avgTime,
+        gasPrice: `${gasData.speeds[3].gasPrice} gwei`,
+        avgBlockTime: `${gasData.avgTime} min`,
         gasLimit: 30000000, 
       }
     };
