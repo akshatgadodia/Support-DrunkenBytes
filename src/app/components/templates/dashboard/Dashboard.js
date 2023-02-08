@@ -1,10 +1,12 @@
 import React from "react";
 import styles from "./dashboard.module.css";
 import PerformanceDisplay from "./components/PerformanceDisplay";
+import { useContext } from "react";
+import Chart from "react-google-charts";
+import AppContext from "@/app/context/AppContext";
 
 const Dashboard = props => {
-  console.log(props)
-
+  const { loggedInDetails } = useContext(AppContext);
   return (
     <div className={styles.dashboard}>
       <div className={styles.performanceDiv}>
@@ -29,6 +31,64 @@ const Dashboard = props => {
             value={`${props.props.netTransactionValue} ETH`}
             backgroundColor="#55ce8e"
           />
+        </div>
+      </div>
+      <div className={styles.middleContainer}>
+        {loggedInDetails.role === "EDITOR"
+          ? <div className={styles.middleDiv}>
+              <span>Latest News</span>
+              <hr />
+              <div className={styles.middleDivContainer}>
+
+              </div>
+            </div>
+          : <div className={styles.middleDiv}>
+              <span>Goerli Stats</span>
+              <hr />
+              <div className={styles.middleDivContainer}>
+                <div className={styles.stats}>
+                  {[
+                    {
+                      name: "Gas Price",
+                      value: `${Number(props.props.gasPrice).toFixed(2)} gwei`
+                    },
+                    {
+                      name: "Avg Block Time",
+                      value: `${Number(props.props.avgBlockTime).toFixed(
+                        2
+                      )} min`
+                    },
+                    { name: "Gas Limit", value: `${props.props.gasLimit}` }
+                  ].map((data, idx) => {
+                    return (
+                      <div className={styles.statsDiv} key={idx}>
+                        <p>
+                          {data.name}
+                        </p>
+                        <span>
+                          {data.value}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <Chart
+                  width={"100%"}
+                  height={400}
+                  chartType="CandlestickChart"
+                  loader={<div>Loading Chart</div>}
+                  data={props.props.chartData}
+                  options={{
+                    legend: "none"
+                  }}
+                  className={styles.chart}
+                />
+              </div>
+            </div>}
+        <div className={styles.middleDiv}>
+          <span>Messages</span>
+          <hr />
+          <div className={styles.middleDivContainer} />
         </div>
       </div>
     </div>

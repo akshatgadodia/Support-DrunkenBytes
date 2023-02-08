@@ -31,11 +31,35 @@ export async function getServerSideProps(context) {
       }
     );
     const performanceData = await performanceDataResponse.json();
+    const gas = await fetch(
+      `https://api.owlracle.info/v3/goerli/gas?apikey=bf6e75b6686345f982f91bfedf1eb244&feeinusd=false&eip1559=false`
+    );
+    const gasData = await gas.json();
+    const gasHistory = await fetch(
+      "https://api.owlracle.info/v3/goerli/history?apikey=bf6e75b6686345f982f91bfedf1eb244&candles=10"
+    );
+    const gasHistoryData = await gasHistory.json();
+    const chartData = [["time", "gas price", "open", "close", "high"]];
+    for (let i = 9; i >= 0; i--) {
+      const data = gasHistoryData[i];
+      const dataObject = [
+        new Date(data.timestamp).toLocaleString(),
+        data.gasPrice.low,
+        data.gasPrice.open,
+        data.gasPrice.close,
+        data.gasPrice.high
+      ];
+      chartData.push(dataObject);
+    }
     return {
       props: {
         businessServed: performanceData.data.businessServed,
         nftsCreated: performanceData.data.nftsCreated,
-        netTransactionValue: `${performanceData.data.netTransactionValue}` 
+        netTransactionValue: `${performanceData.data.netTransactionValue}`,
+        chartData: chartData,
+        gasPrice: gasData.speeds[3].gasPrice,
+        avgBlockTime: gasData.avgTime,
+        gasLimit: 30000000, 
       }
     };
   } catch (err) {
@@ -44,7 +68,11 @@ export async function getServerSideProps(context) {
       props: {
         businessServed: "N/A",
         nftsCreated: "N/A",
-        netTransactionValue: "N/A"
+        netTransactionValue: "N/A",
+        chartData:"N/A",
+        gasPrice: "N/A",
+        avgBlockTime: "N/A",
+        gasLimit: "N/A"
       }
     };
   }
