@@ -15,7 +15,7 @@ const HomePage = props => {
 };
 
 export default HomePage;
-
+// console.log("hellllllllllooooooooooooo!!!!!!");
 export async function getStaticProps(context) {
   const config = {
     method: "GET",
@@ -31,7 +31,7 @@ export async function getStaticProps(context) {
       `${baseURL}/admin-dashboard/get-performance-data`,
       config
     );
-    const messages = await await fetch(`${baseURL}/message/get-messages`);
+    const messages = await fetch(`${baseURL}/message/get-messages`);
     const messagesData = await messages.json();
     const performanceData = await performance.json();
     const gas = await fetch(
