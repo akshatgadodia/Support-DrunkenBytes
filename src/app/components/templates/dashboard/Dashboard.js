@@ -7,6 +7,8 @@ import AppContext from "@/app/context/AppContext";
 import MessageDisplay from "./components/MessageDisplay";
 import NewsDisplay from "./components/NewsDisplay";
 import { ReloadOutlined } from "@ant-design/icons";
+import baseURL from "@/app/constants/baseURL";
+
 const Dashboard = props => {
   const { loggedInDetails } = useContext(AppContext);
   const [messagesData, setMessagesData] = useState(props.props.messagesData);
@@ -15,12 +17,29 @@ const Dashboard = props => {
   const [nextNewsPage, setNextNewsPage] = useState(props.props.nextNewsPage);
 
   const loadMoreMessagesHandler = async () => {
+    setMessagesPage(messagesPage+1)
+    const message=await fetch(`${baseURL}/message/get-messages?currentpage=${messagesPage}`);
+    const messages= await message.json()
+    if(messages.data.messages.length<10)
+    {
+      alert("No more data")
+    }
+    setMessagesData([...messagesData,...messages.data.messages])
     console.log("MORE MESSAGES LOADED");
   };
   const refreshMessagesHandler = async () => {
-    console.log("MESSAGES REFRESHED");
+    const message=await fetch(`${baseURL}/message/get-messages?currentpage=0`);
+    const messages= await message.json()
+    setMessagesData([...messages.data.messages])
   };
   const loadMoreNewsHandler = async () => {
+    const news = await fetch(
+      `https://newsdata.io/api/1/news?apikey=pub_1687132c8ca395f4ec465de59f74769d975ae&q=technology%20blockchain%20AND%20nft&language=en&page=${nextNewsPage}`
+    );
+    const newss = await news.json();
+    setNewsData([...newss.results])
+    setNextNewsPage(newss.nextPage)
+
     console.log("MORE NEWS LOADED");
   };
   return (
@@ -79,7 +98,7 @@ const Dashboard = props => {
                   );
                 })}
                 <button
-                  onClick={loadMoreMessagesHandler}
+                  onClick={loadMoreNewsHandler}
                   className={styles.loadMoreButton}
                 >
                   Load More...
