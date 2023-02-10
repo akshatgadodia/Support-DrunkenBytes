@@ -12,7 +12,7 @@
   border-radius: 4px !important;
 }
 
-/* @/app/components/templates/login/components/CookieBar.js*/
+/* @/app/components/templates/loginPage/components/CookieBar.js*/
 .cookieBarModal {
   width: 600px !important;
   max-width: 90vw !important;
@@ -30,4 +30,64 @@
 }
 .cookieBarModal .ant-switch-checked{
   background: var(--green) !important;
+}
+
+/* @/app/components/templates/transactionPage/TransactionPage.js*/
+.transactionDiv .ant-table{
+  /* overflow-x: scroll; */
+  border-radius: 20px;
+}
+
+.transactionDiv .ant-table-thead > tr > th:first-child{
+  border-radius: 20px 0 0 0 !important;
+}
+
+.transactionDiv .ant-table-thead > tr > th:last-child{
+  border-radius: 0 20px 0 0 !important;
+}
+
+.transactionDiv .ant-table-tbody > tr:last-child > td:first-child{
+  border-radius: 0 0 0 20px !important;
+}
+
+.transactionDiv .ant-table-tbody > tr:last-child > td:last-child{
+  border-radius: 0 0 20px 0 !important;
+
+}
+
+.transactionDiv .ant-table-pagination-right {
+  margin: 15px 0 0 0 !important;
+  justify-content: center;
+}
+
+.transactionDiv .ant-pagination-item-link, .transactionDiv .ant-pagination-item{
+  border-radius: 100% !important;
+}
+.transactionDiv .ant-pagination-item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.transactionDiv .ant-table{
+  min-height: 528px;
+}
+
+.transactionDiv .ant-table-thead > tr > th{
+  background-image: linear-gradient(360deg, #6a21a2, #992eeb);
+  color: white;
+  border: none;
+  text-align: center;
+}
+
+.transactionDiv .ant-table-tbody > tr > td{
+  text-align: center;
+}
+
+.transactionDiv .ant-table-wrapper{
+  margin: 0;
+  padding: 0;
+}
+
+tr:nth-child(even){
+  background: #fae9ff;
 }

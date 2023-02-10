@@ -13,7 +13,7 @@ export const useHttpClient = () => {
       method = "GET",
       body = null,
       headers = {
-        Accept: "application/json",
+        "Accept": "application/json",
         "Content-Type": "application/json"
       }
     ) => {
