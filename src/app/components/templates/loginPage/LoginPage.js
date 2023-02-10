@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import CookieBar from "./components/CookieBar";
-import styles from "./login.module.css";
+import styles from "./loginPage.module.css";
 import Image from "next/image";
 import { Button, Form, Input } from "antd";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import { useHttpClient } from "@/app/hooks/useHttpClient";
 import AppContext from "@/app/context/AppContext";
 import Cookies from "js-cookie";
 import Loader from "@/app/components/modules/Loader";
+import Head from 'next/head'
 
 const Login = () => {
   const { error, sendRequest, isLoading } = useHttpClient();
@@ -21,10 +22,10 @@ const Login = () => {
           email: values.email,
           password: values.password
         }),
-        {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
+        // {
+        //   "Accept": "application/json",
+        //   "Content-Type": "application/json"
+        // }
       );
       if (!error) {
         const role = Cookies.get("supportUserRole");
@@ -37,6 +38,9 @@ const Login = () => {
   };
   return (
     <div className={styles.supportLogin}>
+     <Head>
+        <title>Support Login | Drunken Bytes</title>
+      </Head>
       <Loader isLoading={isLoading} />
       <CookieBar />
       <div className={styles.container}>

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./dashboard.module.css";
+import styles from "./dashboardPage.module.css";
 import PerformanceDisplay from "./components/PerformanceDisplay";
 import { useContext, useState } from "react";
 import Chart from "react-google-charts";
@@ -7,43 +7,51 @@ import AppContext from "@/app/context/AppContext";
 import MessageDisplay from "./components/MessageDisplay";
 import NewsDisplay from "./components/NewsDisplay";
 import { ReloadOutlined } from "@ant-design/icons";
-import baseURL from "@/app/constants/baseURL";
+import Head from "next/head";
+import { useHttpClient } from "@/app/hooks/useHttpClient";
 
 const Dashboard = props => {
+  const { error, sendRequest, isLoading } = useHttpClient();
   const { loggedInDetails } = useContext(AppContext);
   const [messagesData, setMessagesData] = useState(props.props.messagesData);
-  const [messagesPage, setMessagesPage] = useState(0);
+  const [messagesPage, setMessagesPage] = useState(2);
   const [newsData, setNewsData] = useState(props.props.newsData);
   const [nextNewsPage, setNextNewsPage] = useState(props.props.nextNewsPage);
+  const [loadMoreDisabled, setLoadMoreDisabled] = useState(false);
 
   const loadMoreMessagesHandler = async () => {
-    setMessagesPage(messagesPage+1)
-    const message=await fetch(`${baseURL}/message/get-messages?currentpage=${messagesPage}`);
-    const messages= await message.json()
-    if(messages.data.messages.length<10)
-    {
-      alert("No more data")
+    const messages = await sendRequest(
+      `/message/get-messages?currentPage=${messagesPage}`
+    );
+    if (messages.messages.length < 10) {
+      setLoadMoreDisabled(true);
     }
-    setMessagesData([...messagesData,...messages.data.messages])
-    console.log("MORE MESSAGES LOADED");
+    setMessagesData([...messagesData, ...messages.messages]);
+    setMessagesPage(messagesPage + 1);
   };
+
   const refreshMessagesHandler = async () => {
-    const message=await fetch(`${baseURL}/message/get-messages?currentpage=0`);
-    const messages= await message.json()
-    setMessagesData([...messages.data.messages])
+    const messages = await sendRequest(`/message/get-messages?currentPage=1`);
+    setLoadMoreDisabled(false);
+    setMessagesData([...messages.messages]);
   };
+
   const loadMoreNewsHandler = async () => {
     const news = await fetch(
       `https://newsdata.io/api/1/news?apikey=pub_1687132c8ca395f4ec465de59f74769d975ae&q=technology%20blockchain%20AND%20nft&language=en&page=${nextNewsPage}`
     );
-    const newss = await news.json();
-    setNewsData([...newss.results])
-    setNextNewsPage(newss.nextPage)
+    const newNews = await news.json();
+    console.log(newNews.nextPage);
+    setNewsData([...newNews.results]);
+    setNextNewsPage(newNews.nextPage);
 
     console.log("MORE NEWS LOADED");
   };
   return (
     <div className={styles.dashboard}>
+      <Head>
+        <title>Support Dashboard | Drunken Bytes</title>
+      </Head>
       <div className={styles.performanceDiv}>
         <span>Business Performance</span>
         <hr />
@@ -83,7 +91,13 @@ const Dashboard = props => {
       <div className={styles.middleContainer}>
         {loggedInDetails.role === "EDITOR"
           ? <div className={styles.middleDiv}>
-              <span>Latest News</span>
+              <span>
+                Latest News{" "}
+                <ReloadOutlined
+                  className={styles.reloadIcon}
+                  onClick={loadMoreNewsHandler}
+                />
+              </span>
               <hr />
               <div
                 className={`${styles.middleDivContainer} ${styles.newsContainer}`}
@@ -97,12 +111,6 @@ const Dashboard = props => {
                     />
                   );
                 })}
-                <button
-                  onClick={loadMoreNewsHandler}
-                  className={styles.loadMoreButton}
-                >
-                  Load More...
-                </button>
               </div>
             </div>
           : <div className={styles.middleDiv}>
@@ -172,8 +180,9 @@ const Dashboard = props => {
             <button
               onClick={loadMoreMessagesHandler}
               className={styles.loadMoreButton}
+              disabled={loadMoreDisabled}
             >
-              Load More...
+              {loadMoreDisabled ? "No More Messages" : "Load More Messages..."}
             </button>
           </div>
         </div>

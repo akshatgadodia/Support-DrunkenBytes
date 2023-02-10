@@ -97,10 +97,9 @@
 .messagesContainer {
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
   padding: 0 !important;
-  padding-top: 100px !important;
-  /* margin: 0 !important; */
+  margin: 0 !important;
   display: flex !important;
   justify-content: center !important;
   max-height: 483px !important;
@@ -109,13 +108,16 @@
 .newsContainer {
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
   padding: 0 !important;
   margin: 0 !important;
   display: flex !important;
+  flex-direction: column;
   justify-content: center !important;
+  align-items: flex-start;
   max-height: 483px !important;
-  /* color: var(--black) !important; */
+  min-height: 483px !important;
+  color: var(--black) !important;
 }
 .loadMoreButton {
   width: 100%;
@@ -123,9 +125,17 @@
   background-color: var(--purple);
   border: none;
   color: var(--white);
+  cursor: pointer;
 }
 .loadMoreButton:hover {
   opacity: 0.9;
+}
+.loadMoreButton:disabled,
+.loadMoreButton[disabled]{
+  opacity: 0.8;
+  cursor: not-allowed;
+  background-color: var(--darkWhite);
+  color: var(--black);
 }
 .reloadIcon {
   outline: none;
@@ -158,5 +168,8 @@
   }
   .chart {
     /* transform: translateX(200px) !important; */
+  }
+  .newsContainer {
+    min-height: 0px !important;
   }
 }

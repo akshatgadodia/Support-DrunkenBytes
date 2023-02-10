@@ -8,7 +8,15 @@ export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
   const sendRequest = useCallback(
-    async (url, method = "GET", body = null, headers = {}) => {
+    async (
+      url,
+      method = "GET",
+      body = null,
+      headers = {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    ) => {
       setIsLoading(true);
       try {
         const response = await fetch(`${baseURL}${url}`, {
@@ -27,7 +35,7 @@ export const useHttpClient = () => {
         setIsLoading(false);
         return responseData.data;
       } catch (err) {
-        // console.log(err)
+        console.log(err)
         setError(err.message);
         setIsLoading(false);
         notification.error({
