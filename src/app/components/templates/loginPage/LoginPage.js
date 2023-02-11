@@ -22,10 +22,6 @@ const Login = () => {
           email: values.email,
           password: values.password
         }),
-        // {
-        //   "Accept": "application/json",
-        //   "Content-Type": "application/json"
-        // }
       );
       if (!error) {
         const role = Cookies.get("supportUserRole");
@@ -52,7 +48,7 @@ const Login = () => {
           />
         </div>
         <div className={styles.loginDiv}>
-          <h1> Login to Drunken Bytes</h1>
+          <h1>Login to Drunken Bytes</h1>
           <Form
             name="basic"
             style={{ maxWidth: "100%" }}

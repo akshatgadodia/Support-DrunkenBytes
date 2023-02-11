@@ -14,7 +14,9 @@ const CustomTable = props => {
   const [filters, setFilters] = useState({});
   const searchInput = useRef(null);
 
-  
+  useEffect(() => {
+    console.log(filters)
+  }, [filters]);
   useEffect(() => {
     setTableData(props.data);
     setTotalTransactions(props.totalTransactions);
@@ -24,6 +26,7 @@ const CustomTable = props => {
     /* 
       Code Here
     */
+
     confirm();
     setFilters(prevState => ({
       ...prevState,
