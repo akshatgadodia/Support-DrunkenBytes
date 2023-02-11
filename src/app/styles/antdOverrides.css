@@ -8,8 +8,12 @@
   all: unset !important;
 }
 
-.error-notification{
+.error-notification {
   border-radius: 4px !important;
+}
+
+.ant-spin-dot-item{
+  background-color: var(--purple) !important;
 }
 
 /* @/app/components/templates/loginPage/components/CookieBar.js*/
@@ -28,66 +32,95 @@
 .cookieBarModal .ant-modal-body {
   padding: 30px 20px 40px 20px;
 }
-.cookieBarModal .ant-switch-checked{
+.cookieBarModal .ant-switch-checked {
   background: var(--green) !important;
 }
 
+/* @/app/components/templates/createNft/CreateNft.js*/
+.displayResultModal {
+  width: 400px !important;
+  max-width: 90vw !important;
+  border-radius: 4px !important;
+}
+.displayResultModal .ant-modal-header {
+  text-align: center !important;
+}
+.displayResultModal .ant-modal-title {
+  font-size: 1.5rem !important;
+  font-weight: 400;
+  letter-spacing: normal !important;
+  line-height: 2rem;
+  padding-left: 18px !important;
+}
+.displayResultModal .ant-modal-body {
+  padding: 30px 20px 40px 20px;
+}
+
 /* @/app/components/templates/transactionPage/TransactionPage.js*/
-.transactionDiv .ant-table{
-  /* overflow-x: scroll; */
-  border-radius: 20px;
+.transactionDiv .ant-table {
+  border-radius: 4px;
 }
 
-.transactionDiv .ant-table-thead > tr > th:first-child{
-  border-radius: 20px 0 0 0 !important;
+.transactionDiv .ant-table-thead > tr > th:first-child {
+  border-radius: 4px 0 0 0 !important;
 }
 
-.transactionDiv .ant-table-thead > tr > th:last-child{
-  border-radius: 0 20px 0 0 !important;
+.transactionDiv .ant-table-thead > tr > th:last-child {
+  border-radius: 0 4px 0 0 !important;
 }
 
-.transactionDiv .ant-table-tbody > tr:last-child > td:first-child{
-  border-radius: 0 0 0 20px !important;
+.transactionDiv .ant-table-tbody > tr:last-child > td:first-child {
+  border-radius: 0 0 0 4px !important;
 }
 
-.transactionDiv .ant-table-tbody > tr:last-child > td:last-child{
-  border-radius: 0 0 20px 0 !important;
-
+.transactionDiv .ant-table-tbody > tr:last-child > td:last-child {
+  border-radius: 0 0 4px 0 !important;
 }
 
+.transactionDiv .ant-table-filter-trigger {
+  color: var(--white) !important;
+}
+.transactionDiv .ant-table-column-sorter {
+  color: var(--white) !important;
+}
 .transactionDiv .ant-table-pagination-right {
-  margin: 15px 0 0 0 !important;
+  /* margin: 15px 0 0 0 !important; */
   justify-content: center;
 }
 
-.transactionDiv .ant-pagination-item-link, .transactionDiv .ant-pagination-item{
-  border-radius: 100% !important;
+.transactionDiv .ant-table-thead > tr > th {
+  background: linear-gradient(360deg, var(--purple), var(--purple));
+  /* background: var(--purple) !important; */
+  color: var(--white) !important;
+  text-align: center;
 }
-.transactionDiv .ant-pagination-item{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.transactionDiv .ant-table-thead > tr > .ant-table-column-has-sorters:active,
+.transactionDiv .ant-table-thead > tr > .ant-table-column-has-sorters:focus,
+.transactionDiv .ant-table-thead > tr > .ant-table-column-has-sorters:hover {
+  background: linear-gradient(360deg, var(--purple), var(--purple)) !important;
+  opacity: 0.9;
 }
-.transactionDiv .ant-table{
-  min-height: 528px;
+.transactionDiv .ant-table-thead > tr > .ant-table-column-sort {
+  background: linear-gradient(360deg, var(--purple), var(--purple)) !important;
 }
-
-.transactionDiv .ant-table-thead > tr > th{
-  background-image: linear-gradient(360deg, #6a21a2, #992eeb);
-  color: white;
-  border: none;
+.ant-table-column-sort {
+  background: transparent !important;
+}
+.transactionDiv .ant-table-tbody > tr > td {
   text-align: center;
 }
 
-.transactionDiv .ant-table-tbody > tr > td{
-  text-align: center;
-}
-
-.transactionDiv .ant-table-wrapper{
+.transactionDiv .ant-table-wrapper {
   margin: 0;
   padding: 0;
 }
 
-tr:nth-child(even){
-  background: #fae9ff;
+.transactionDiv .ant-pagination-item-link,
+.transactionDiv .ant-pagination-item {
+  border-radius: 100% !important;
+}
+.transactionDiv .ant-pagination-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

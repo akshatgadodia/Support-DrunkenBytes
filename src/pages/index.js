@@ -86,7 +86,8 @@ export async function getStaticProps(context) {
         avgBlockTime: "N/A",
         gasLimit: "N/A",
         messagesData: []
-      }
+      },
+      revalidate: 60
     };
   }
 }

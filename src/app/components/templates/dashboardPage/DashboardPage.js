@@ -72,7 +72,7 @@ const Dashboard = props => {
             {
               src: "/images/net-transaction-value-icon.png",
               heading: "Net Transaction Value",
-              value: `${props.props.netTransactionValue} ETH`,
+              value: `${Number(props.props.netTransactionValue).toFixed(5)} ETH`,
               backgroundColor: "#55ce8e"
             }
           ].map((data, idx) => {

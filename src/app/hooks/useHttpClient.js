@@ -29,7 +29,7 @@ export const useHttpClient = () => {
         const responseData = await response.json();
         // console.log(responseData);
         if (!responseData.success) {
-          //console.log(responseData)
+          console.log(responseData)
           throw new Error(responseData.data.error);
         }
         setIsLoading(false);
@@ -42,7 +42,7 @@ export const useHttpClient = () => {
           message: "Error",
           description: err.message,
           placement: "top",
-          duration: null,
+          // duration: null,
           className: "error-notification"
         });
         throw err;
