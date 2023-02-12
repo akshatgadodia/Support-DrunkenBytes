@@ -13,6 +13,7 @@ export default function MyApp({ Component, pageProps }) {
   useLayoutEffect(() => {
     const setLoggedInDetails = async () => {
       const role = Cookies.get('supportUserRole')
+      console.log(role);
       if (role) {
           dispatch({
             type: "UserLogin",
