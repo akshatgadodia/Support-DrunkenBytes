@@ -1,7 +1,7 @@
 import React from "react";
 import DefaultLayout from "@/app/components/layouts/DefaultLayout";
 import baseURL from "@/app/constants/baseURL";
-import UserSinglePage from '@/app/components/templates/UserSinglePage/UserSinglePage';
+import UserSinglePage from '@/app/components/templates/userSinglePage/UserSinglePage';
 
 const UserSingle = (props) => {
   return (
