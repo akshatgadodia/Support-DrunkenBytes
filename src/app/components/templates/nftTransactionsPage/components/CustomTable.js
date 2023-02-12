@@ -4,6 +4,7 @@ import { Button, Input, Space, Table, Tag  } from "antd";
 import { useRef, useState, useEffect } from "react";
 import { useHttpClient } from "@/app/hooks/useHttpClient";
 import Link from "next/link";
+import baseUrl from "@/app/constants/baseURL";
 
 const CustomTable = props => {
   const { error, sendRequest, isLoading } = useHttpClient();
@@ -12,26 +13,43 @@ const CustomTable = props => {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [filters, setFilters] = useState({});
+  const [query,setquery]=useState([])
   const searchInput = useRef(null);
-
-  useEffect(() => {
-    console.log(filters)
-  }, [filters]);
+  const config = {
+    method: "GET",
+    body: null,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    credentials: "include"
+  };
+  
   useEffect(() => {
     setTableData(props.data);
     setTotalTransactions(props.totalTransactions);
   }, [props]);
 
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+  const search=async(currentpage=1,size=10)=>{
+    const transactions = await fetch(`${baseUrl}/nft-transaction/get-all-transactions?q=${query}&page=${currentpage}&size=${size}`,
+    config);
+    const transactionsData = await transactions.json();
+    setTableData(tabledata=>(transactionsData.data.transactions))
+  console.log(tableData);
+  }
+  useEffect(() => {
+    search()
+  }, [query,filters]);
+  const handleSearch = async(selectedKeys, confirm, dataIndex) => {
     /* 
       Code Here
     */
-
     confirm();
     setFilters(prevState => ({
       ...prevState,
       [dataIndex]: selectedKeys[0]
   }));
+  setquery(query=>([...query,JSON.stringify({[dataIndex]:selectedKeys[0]})]))
   };
 
   const handleReset = (clearFilters, selectedKeys, confirm, dataIndex) => {
@@ -40,9 +58,7 @@ const CustomTable = props => {
     setFilters(rest);
   };
   const onPageChangeHandler = async (current, size) => {
-    /*
-      Code Here
-    */
+    search(current,size)
     console.log(current, size)
     setCurrentPage(current);
     setPageSize(size)
