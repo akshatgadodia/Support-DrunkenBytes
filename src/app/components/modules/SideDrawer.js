@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Drawer, Collapse } from "antd";
 import "./stylesheets/sideDrawer.css"
 import Link from "next/link";
 import sideDrawerData from "../../data/sideDrawerData.json";
+import AppContext from "@/app/context/AppContext";
+
 const SideDrawer = () => {
+  const { loggedInDetails } = useContext(AppContext);
     const { Panel } = Collapse;
     const [open, setOpen] = useState(false);
-    const loggedInUserRole = "adminData";
+    const loggedInUserRole = loggedInDetails.role;
     const showDrawer = () => {
       setOpen(true);
     };
@@ -44,7 +47,7 @@ const SideDrawer = () => {
         >
           <div className="side-drawer-main-div">
             <Collapse accordion>
-              {sideDrawerData[loggedInUserRole].map((data,idx) => {
+              {sideDrawerData[loggedInDetails.role].map((data,idx) => {
                 return(
                 <Panel header={data.title} key={idx}>
                   {data.data.map((linkData, index)=>{
