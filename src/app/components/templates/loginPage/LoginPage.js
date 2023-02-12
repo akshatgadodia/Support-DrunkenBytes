@@ -8,7 +8,7 @@ import { useHttpClient } from "@/app/hooks/useHttpClient";
 import AppContext from "@/app/context/AppContext";
 import Cookies from "js-cookie";
 import Loader from "@/app/components/modules/Loader";
-import Head from 'next/head'
+import Head from "next/head";
 
 const Login = () => {
   const { error, sendRequest, isLoading } = useHttpClient();
@@ -21,7 +21,7 @@ const Login = () => {
         JSON.stringify({
           email: values.email,
           password: values.password
-        }),
+        })
       );
       if (!error) {
         const role = Cookies.get("supportUserRole");
@@ -34,7 +34,7 @@ const Login = () => {
   };
   return (
     <div className={styles.supportLogin}>
-     <Head>
+      <Head>
         <title>Support Login | Drunken Bytes</title>
       </Head>
       <Loader isLoading={isLoading} />
