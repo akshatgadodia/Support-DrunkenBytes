@@ -1,4 +1,4 @@
-import React, {useReducer, useLayoutEffect} from "react";
+import React, {useReducer, useLayoutEffect, useState} from "react";
 import Head from "next/head";
 import 'antd/dist/reset.css';
 import "../app/styles/globals.css"
@@ -10,13 +10,16 @@ import Loader from "@/app/components/modules/Loader";
 
 export default function MyApp({ Component, pageProps }) {
   const [loggedInDetails, dispatch] = useReducer( reducer, initialLoggedInDetails);
+  const [cookie,setcookie]=useState(false)
+  const [r,setrole]=useState("")
   useLayoutEffect(() => {
     const setLoggedInDetails = async () => {
       const role = Cookies.get('supportUserRole')
+      console.log(role);
       if(role)
       {
-        console.log("hello");
-        Cookies.set("supportuserrole",role)
+        setcookie(true)
+        setrole(role)
       }
       console.log(role);
       if (role) {
@@ -28,6 +31,11 @@ export default function MyApp({ Component, pageProps }) {
     };
     setLoggedInDetails();
   }, []);
+  if(cookie)
+  {
+    console.log("hello");
+    Cookies.set("supportuserrole",r,{domain:window.location.href})
+  }
   return (
     <AppContext.Provider value={{loggedInDetails, dispatch}}>
       <Head>
