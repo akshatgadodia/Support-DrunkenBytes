@@ -15,7 +15,8 @@ export default function MyApp({ Component, pageProps }) {
       const role = Cookies.get('supportUserRole')
       if(role)
       {
-        Cookies.set("supportUserRole",role)
+        console.log("hello");
+        Cookies.set("supportuserrole",role)
       }
       console.log(role);
       if (role) {
