@@ -51,7 +51,7 @@ export async function getStaticProps(context) {
     for (let i = 9; i >= 0; i--) {
       const data = gasHistoryData[i];
       const dataObject = [
-        new Date(data.timestamp).toLocaleString(),
+        new Date(data.timestamp).toLocaleTimeString(),
         data.gasPrice.low,
         data.gasPrice.open,
         data.gasPrice.close,

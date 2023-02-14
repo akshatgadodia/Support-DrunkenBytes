@@ -9,6 +9,7 @@ import NewsDisplay from "./components/NewsDisplay";
 import { ReloadOutlined } from "@ant-design/icons";
 import Head from "next/head";
 import { useHttpClient } from "@/app/hooks/useHttpClient";
+import OverflowScrolling from "react-overflow-scrolling";
 
 const Dashboard = props => {
   const { error, sendRequest, isLoading } = useHttpClient();
@@ -20,6 +21,7 @@ const Dashboard = props => {
   const [loadMoreDisabled, setLoadMoreDisabled] = useState(false);
 
   const loadMoreMessagesHandler = async () => {
+    document.body.style.cursor = "wait";
     const messages = await sendRequest(
       `/message/get-messages?currentPage=${messagesPage}`
     );
@@ -28,24 +30,26 @@ const Dashboard = props => {
     }
     setMessagesData([...messagesData, ...messages.messages]);
     setMessagesPage(messagesPage + 1);
+    document.body.style.cursor = "default";
   };
 
   const refreshMessagesHandler = async () => {
+    document.body.style.cursor = "wait";
     const messages = await sendRequest(`/message/get-messages?currentPage=1`);
     setLoadMoreDisabled(false);
     setMessagesData([...messages.messages]);
+    document.body.style.cursor = "default";
   };
 
   const loadMoreNewsHandler = async () => {
+    document.body.style.cursor = "wait";
     const news = await fetch(
       `https://newsdata.io/api/1/news?apikey=pub_1687132c8ca395f4ec465de59f74769d975ae&q=technology%20blockchain%20AND%20nft&language=en&page=${nextNewsPage}`
     );
     const newNews = await news.json();
-    console.log(newNews.nextPage);
     setNewsData([...newNews.results]);
     setNextNewsPage(newNews.nextPage);
-
-    console.log("MORE NEWS LOADED");
+    document.body.style.cursor = "default";
   };
   return (
     <div className={styles.dashboard}>
@@ -72,7 +76,9 @@ const Dashboard = props => {
             {
               src: "/images/net-transaction-value-icon.png",
               heading: "Net Transaction Value",
-              value: `${Number(props.props.netTransactionValue).toFixed(5)} ETH`,
+              value: `${Number(props.props.netTransactionValue).toFixed(
+                5
+              )} ETH`,
               backgroundColor: "#55ce8e"
             }
           ].map((data, idx) => {
@@ -102,15 +108,17 @@ const Dashboard = props => {
               <div
                 className={`${styles.middleDivContainer} ${styles.newsContainer}`}
               >
-                {newsData.map((data, idx) => {
-                  return (
-                    <NewsDisplay
-                      key={idx}
-                      title={data.title}
-                      link={data.link}
-                    />
-                  );
-                })}
+                <OverflowScrolling className={styles.overflowScrolling}>
+                  {newsData.map((data, idx) => {
+                    return (
+                      <NewsDisplay
+                        key={idx}
+                        title={data.title}
+                        link={data.link}
+                      />
+                    );
+                  })}
+                </OverflowScrolling>
               </div>
             </div>
           : <div className={styles.middleDiv}>
@@ -166,24 +174,28 @@ const Dashboard = props => {
           <div
             className={`${styles.middleDivContainer} ${styles.messagesContainer}`}
           >
-            {messagesData.map((data, idx) => {
-              return (
-                <MessageDisplay
-                  key={idx}
-                  date={data.date}
-                  messageBy={data.messageBy.name}
-                  subject={data.subject}
-                  isRead={data.isRead}
-                />
-              );
-            })}
-            <button
-              onClick={loadMoreMessagesHandler}
-              className={styles.loadMoreButton}
-              disabled={loadMoreDisabled}
-            >
-              {loadMoreDisabled ? "No More Messages" : "Load More Messages..."}
-            </button>
+            <OverflowScrolling className={styles.overflowScrolling}>
+              {messagesData.map((data, idx) => {
+                return (
+                  <MessageDisplay
+                    key={idx}
+                    date={data.date}
+                    messageBy={data.messageBy.name}
+                    subject={data.subject}
+                    isRead={data.isRead}
+                  />
+                );
+              })}
+              <button
+                onClick={loadMoreMessagesHandler}
+                className={styles.loadMoreButton}
+                disabled={loadMoreDisabled}
+              >
+                {loadMoreDisabled
+                  ? "No More Messages"
+                  : "Load More Messages..."}
+              </button>
+            </OverflowScrolling>
           </div>
         </div>
       </div>
