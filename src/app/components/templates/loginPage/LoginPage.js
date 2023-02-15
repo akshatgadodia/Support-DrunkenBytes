@@ -9,8 +9,10 @@ import AppContext from "@/app/context/AppContext";
 import Cookies from "js-cookie";
 import Loader from "@/app/components/modules/Loader";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
-const Login = () => {
+const LoginPage = () => {
+  const router = useRouter();
   const { error, sendRequest, isLoading } = useHttpClient();
   const { dispatch } = useContext(AppContext);
   const onFinish = async values => {
@@ -25,10 +27,12 @@ const Login = () => {
       );
       if (!error) {
         const role = Cookies.get("supportUserRole");
+        // console.log(role)
         dispatch({
           type: "UserLogin",
           payload: { role }
         });
+        router.push('/');
       }
     } catch (err) {}
   };
@@ -110,4 +114,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

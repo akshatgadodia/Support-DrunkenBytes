@@ -21,7 +21,6 @@ const Dashboard = props => {
   const [loadMoreDisabled, setLoadMoreDisabled] = useState(false);
 
   const loadMoreMessagesHandler = async () => {
-    document.body.style.cursor = "wait";
     const messages = await sendRequest(
       `/message/get-messages?currentPage=${messagesPage}`
     );
@@ -30,26 +29,21 @@ const Dashboard = props => {
     }
     setMessagesData([...messagesData, ...messages.messages]);
     setMessagesPage(messagesPage + 1);
-    document.body.style.cursor = "default";
   };
 
   const refreshMessagesHandler = async () => {
-    document.body.style.cursor = "wait";
     const messages = await sendRequest(`/message/get-messages?currentPage=1`);
     setLoadMoreDisabled(false);
     setMessagesData([...messages.messages]);
-    document.body.style.cursor = "default";
   };
 
   const loadMoreNewsHandler = async () => {
-    document.body.style.cursor = "wait";
     const news = await fetch(
       `https://newsdata.io/api/1/news?apikey=pub_1687132c8ca395f4ec465de59f74769d975ae&q=technology%20blockchain%20AND%20nft&language=en&page=${nextNewsPage}`
     );
     const newNews = await news.json();
     setNewsData([...newNews.results]);
     setNextNewsPage(newNews.nextPage);
-    document.body.style.cursor = "default";
   };
   return (
     <div className={styles.dashboard}>
@@ -183,6 +177,7 @@ const Dashboard = props => {
                     messageBy={data.messageBy.name}
                     subject={data.subject}
                     isRead={data.isRead}
+                    id={data._id}
                   />
                 );
               })}
