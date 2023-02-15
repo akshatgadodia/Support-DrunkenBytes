@@ -16,6 +16,10 @@
   background-color: var(--purple) !important;
 }
 
+.ant-input{
+  height: 50px;
+  width: 100%;
+}
 
 .ant-input{
   border-color: var(--black) !important;

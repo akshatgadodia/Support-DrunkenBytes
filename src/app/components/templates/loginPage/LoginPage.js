@@ -27,7 +27,7 @@ const LoginPage = () => {
       );
       if (!error) {
         const role = Cookies.get("supportUserRole");
-        // console.log(role)
+        Cookies.set('supportUserRole', 'role', { expires: 7 })
         dispatch({
           type: "UserLogin",
           payload: { role }

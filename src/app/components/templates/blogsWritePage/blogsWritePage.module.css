@@ -1,7 +1,4 @@
 .supportLogin{
-    position: absolute;
-    top: 0;
-    left: 0;
     min-height: 100vh;
     width: 100%;
     background-image: linear-gradient(#32344f,#2b2d45,#25273a,#1f2031,#191a27);
@@ -13,9 +10,6 @@
     align-items: center;
     width: 100%;
     padding: 0 10vw;
-}
-.container h1{
-    font-size: 30px !important;
 }
 .logoContainer{
     position: relative;
@@ -78,4 +72,5 @@
     .container{
         padding: 40px 5vw;
     }
+    
 }
