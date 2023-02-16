@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import styles from "./articlesWritePage.module.css";
 import Head from "next/head";
-import { Button, Form, Input, DatePicker, Modal, Spin } from "antd";
+import { Button, Form, Input } from "antd";
 import dynamic from "next/dynamic";
 
 let Editor = dynamic(() => import("@/app/components/modules/Editor"), {
     ssr: false
   });
-const Login = () => {
+const ArticlesWritePage = () => {
   const [articleData,setArticleData] = useState({});
   const editorCore = React.useRef(null);
   const [form] = Form.useForm();
@@ -34,8 +34,8 @@ const Login = () => {
       //   form.resetFields();
       // 
       const savedData = await editorCore.current.save();
-      console.log("Name");
-      console.log(values.name)
+      console.log("Title");
+      console.log(values.title)
       console.log("URL");
       console.log(values.url)
       console.log("ARTICLE DATA");
@@ -58,16 +58,16 @@ const Login = () => {
           autoComplete="on"
         >
           <Form.Item
-            name="name"
+            name="title"
             rules={[
               {
                 required: true,
-                message: "Please enter Article Name"
+                message: "Please enter Article Title"
               }
             ]}
             className={styles.formItem}
           >
-            <Input placeholder="Article Name" className={styles.input} />
+            <Input placeholder="Article Title" className={styles.input} />
           </Form.Item>
           <Form.Item
             name="url"
@@ -93,4 +93,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ArticlesWritePage;

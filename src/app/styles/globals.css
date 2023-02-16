@@ -25,6 +25,7 @@ body {
   line-height: 1.5em;
   font-weight: 400;
   padding-top: 80px !important;
+  scroll-behavior: smooth;
 }
 a {
   text-decoration: none !important;
