@@ -27,9 +27,9 @@ export const useHttpClient = () => {
           headers,
           credentials: "include"
         });
-        // console.log(response)
+        console.log(response)
         const responseData = await response.json();
-        // console.log(responseData);
+        console.log(responseData);
         if (!responseData.success) {
           console.log(responseData)
           throw new Error(responseData.data.error);

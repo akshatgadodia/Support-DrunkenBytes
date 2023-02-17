@@ -12,34 +12,30 @@ const BlogsWritePage = () => {
   const [form] = Form.useForm();
   const onFinish = async values => {
     try {
-      // const result = await sendRequest(
-      //   "/nft/mint-nft",
-      //   "POST",
-      //   JSON.stringify({
-      //     createdBy: values.createdBy,
-      //     buyerName: values.buyerName,
-      //     buyerEmail: values.buyerEmail,
-      //     brandName: values.brandName,
-      //     productName: values.productName,
-      //     productId: values.productId,
-      //     warrantyExpireDate: values.warrantyExpireDate.$d,
-      //     buyerMetamaskAddress: values.buyerMetamaskAddress,
-      //     methodType: 0
-      //   })
-      // );
-      // if (!error) {
-      //   setTransactionID(result.txId);
-      //   setOpenModal(true);
-      //   form.resetFields();
-      // 
-      const savedData = await editorCore.current.save();
+      const savedData = await editorCore.current.save()
       console.log("Title");
       console.log(values.title)
       console.log("URL");
       console.log(values.url)
       console.log("BLOG DATA");
       console.log(savedData);
-    } catch (err) {}
+      const result = await sendRequest(
+        `/blog/save-blog`,
+        "POST",
+        JSON.stringify({
+          title: values.title,
+          url: values.url,
+          content:JSON.stringify(savedData),
+        })
+      ); 
+      console.log(result);
+      if (!error) {
+        alert("Blog successfully created")
+        form.resetFields();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className={styles.writeBlog}>
