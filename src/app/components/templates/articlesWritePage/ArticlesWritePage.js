@@ -16,6 +16,7 @@ const ArticlesWritePage = () => {
   const onFinish = async values => {
     try {
       const savedData = await editorCore.current.save()
+      console.log(values);
       console.log("Title");
       console.log(values.title)
       console.log("URL");

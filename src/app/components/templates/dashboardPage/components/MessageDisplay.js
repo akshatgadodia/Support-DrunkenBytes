@@ -18,11 +18,11 @@ const MessageDisplay = props => {
           }}
           className={styles.avatar}
         >
-          {props.messageBy.charAt(0).toUpperCase()}
+          {props.messageBy?.charAt(0).toUpperCase()}
         </Avatar>
         <div className={styles.textDiv}>
           <p>
-            {props.messageBy}
+            {props.messageBy && props.messageBy}
           </p>
           <span>
             {props.subject}

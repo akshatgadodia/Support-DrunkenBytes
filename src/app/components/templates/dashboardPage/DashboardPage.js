@@ -174,7 +174,7 @@ const Dashboard = props => {
                   <MessageDisplay
                     key={idx}
                     date={data.date}
-                    messageBy={data.messageBy.name}
+                    messageBy={data.messageBy?.name}
                     subject={data.subject}
                     isRead={data.isRead}
                     id={data._id}

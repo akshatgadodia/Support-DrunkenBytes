@@ -13,6 +13,9 @@ import Table from "@editorjs/table";
 import Marker from "@editorjs/marker";
 import Underline from "@editorjs/underline";
 import RawTool from "@editorjs/raw";
+import baseURL from "@/app/constants/baseURL";
+
+
 const EDITOR_JS_TOOLS = {
   underline: Underline,
   Marker: {
@@ -100,22 +103,50 @@ const EDITOR_JS_TOOLS = {
       }
     }
   },
+  
   image: {
     class: Image,
     config: {
       uploader: {
-        uploadByFile(file) {
-          let formData = new FormData();
-          formData.append("images", file);
-          // send image to server
-          return API.imageUpload(formData).then(res => {
-            return {
-              success: 1,
-              file: {
-                url: res.data.data
-              }
+        async uploadByFile(file) {
+          console.log("file",file);
+          var storageRef = storage.ref();
+            var imagesRef = storageRef.child('EditorJS').child('images/'+ file.name);
+            var metadata = {
+                contentType: 'image/jpeg'
             };
-          });
+            var uploadTask = await imagesRef.put(file, metadata);
+            console.log("Uploaded successfully!", uploadTask);
+            const downloadURL = await uploadTask.ref.getDownloadURL();
+            console.log(downloadURL);
+            return {
+                success: 1,
+                file: {
+                    url: downloadURL
+                }
+            }
+          // console.log();
+          // console.log(file);
+          // const formData = new FormData();
+          // formData.append("file", file[0]);
+          // console.log(formData);
+          // fetch(`${baseURL}/image`, {method: "POST", body: JSON.stringify(formData),
+          // headers: {"Accept": "application/json",
+          // "Content-type": "application/json; charset=UTF-8"},
+          // credentials:"include"}).then(response => response.json()).then(json => console.log(json));
+          // send image to server
+          // fetch("/image",{method:"POST",body:formData,headers:{"Accept": "application/json",
+          // "Content-Type": "application/json",credentials:"include"}}).then(res => {
+          //   return res.json()
+          // }).then(res=>{
+          //   console.log(res);
+          //   return {
+          //     success: 1,
+          //     file: {
+          //       url: res.data.data
+          //     }
+          //   }
+          // })
         }
       }
     }
