@@ -20,7 +20,7 @@
 }
 
 .containerStar {
-  background-image: linear-gradient(to bottom, #292256 0%, #8446cf 70%, #a871d6 100%);
+  background-image: linear-gradient(to bottom, #292256 0%, #7567ce 70%, #9c90eb 100%);
 }
 .containerStar:after {
   background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 40%, rgba(15, 10, 38, 0.2) 100%);

@@ -1,5 +1,6 @@
 import baseURL from "@/app/constants/baseURL";
-export const imageupload = async (file)=>{
+
+export const uploadImage = async (file)=>{
     const formData = new FormData();
     formData.append("image", file);
     const result = await fetch(`${baseURL}/image`,

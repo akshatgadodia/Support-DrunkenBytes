@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../stylesheets/messageDisplay.module.css";
 import { Avatar } from "antd";
 import Link from "next/link";
+
 const MessageDisplay = props => {
   const ColorList = ["#f56a00", "#7265e6", "#ffbf00", "#00a2ae"];
   let style;
