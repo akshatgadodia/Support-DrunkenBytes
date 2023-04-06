@@ -1,7 +1,7 @@
 import React from "react";
 import DefaultLayout from "@/app/components/layouts/DefaultLayout";
 import baseURL from "@/app/constants/baseURL";
-import NftTransactionsSinglePage from '../../../../app/components/templates/nftTransactionsSinglePage/NftTransactionsSinglePage';
+import NftTransactionsSinglePage from '@/app/components/templates/nftTransactionsSinglePage/NftTransactionsSinglePage';
 
 const NftTransaction = (props) => {
   return (
@@ -16,7 +16,7 @@ export default NftTransaction;
 export async function getStaticPaths() {
   return {
     paths: [
-      { params: { txId: "0xa046091545e6daaa542e80e86fe7798a2e349da98628706e42ccd56259eca762" } }
+      { params: { txId: "0xff06018521475d2874ba0053a1b7bf1f045d840f742f002f402799ef76c35dae" } }
     ],
     fallback: 'blocking' // false or 'blocking'
   };
@@ -46,8 +46,7 @@ export async function getStaticProps({params}) {
     console.log(err);
     return {
       props: {
-        transactions:[],
-        totalTransactions: 0
+        transactions:{},
       },
       revalidate: 60
     };

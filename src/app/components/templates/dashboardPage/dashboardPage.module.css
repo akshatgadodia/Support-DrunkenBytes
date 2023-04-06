@@ -1,6 +1,12 @@
 .dashboard {
+  position: relative;
+  top: -80px;
+  right: 0;
+  left: 0;
+  margin-bottom: -80px;
   width: 100%;
   padding: 50px 10vw;
+  padding-top: calc(50px + 80px);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -144,6 +150,7 @@
   .dashboard {
     width: 100%;
     padding: 20px 5vw;
+  padding-top: calc(50px + 80px);
   }
   .performanceContainer {
     flex-direction: column;

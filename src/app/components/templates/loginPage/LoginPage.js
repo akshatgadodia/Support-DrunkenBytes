@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import CookieBar from "./components/CookieBar";
 import styles from "./loginPage.module.css";
 import Image from "next/image";
 import { Button, Form, Input } from "antd";
@@ -27,10 +26,8 @@ const LoginPage = () => {
           password: values.password
         })
       );
-      console.log(error);
       if (!error) {
-        console.log(loginResult);
-        Cookies.set('supportUserRole', loginResult.role , { expires: 7 })
+        Cookies.set('db_s_userRole', loginResult.role , { expires: 7 })
         const role = loginResult.role;
         dispatch({
           type: "UserLogin",
@@ -47,7 +44,6 @@ const LoginPage = () => {
         <title>Support Login | Drunken Bytes</title>
       </Head>
       <Loader isLoading={isLoading} />
-      <CookieBar />
       <div className={styles.container}>
         <div className={styles.logoContainer}>
           <Image
@@ -102,14 +98,14 @@ const LoginPage = () => {
           </Form>
           <p>
             Read our{" "}
-            <Link href="" className={styles.link}>
+            <Link href="https://drunkenbytes.vercel.app/terms-of-service" className={styles.link}>
               Terms & Conditions
             </Link>,{" "}
-            <Link href="" className={styles.link}>
+            <Link href="https://drunkenbytes.vercel.app/privacy-policy" className={styles.link}>
               Privacy Policy
             </Link>{" "}
             and{" "}
-            <Link href="" className={styles.link}>
+            <Link href="https://drunkenbytes.vercel.app/cookies-policy" className={styles.link}>
               Cookie Policy
             </Link>
           </p>

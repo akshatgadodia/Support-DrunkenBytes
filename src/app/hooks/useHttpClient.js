@@ -2,7 +2,6 @@ import { useState, useCallback, useContext } from "react";
 import { notification } from "antd";
 import baseURL from "@/app/constants/baseURL";
 import "@/app/styles/antdOverrides.css";
-import AppContext from "@/app/context/AppContext";
 import NProgress from 'nprogress'
 
 export const useHttpClient = () => {

@@ -13,11 +13,15 @@ const CustomButton = props => {
   else if(props.type === "Gradient"){
     buttonStyles = styles.buttonGradient;
   }
+  else if(props.type === "OnlyBorder"){
+    buttonStyles = styles.buttonOnlyBorder;
+  }
   return (
-    <Button onClick={onClick} className={buttonStyles}>
+    <Button onClick={onClick} className={buttonStyles} {...props}>
       {props.text}
     </Button>
   );
 };
 
 export default CustomButton;
+

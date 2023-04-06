@@ -15,10 +15,9 @@ export default function MyApp({ Component, pageProps }) {
     reducer,
     initialLoggedInDetails
   );
-  const router = useRouter();
   useEffect(() => {
     const setLoggedInDetails = async () => {
-      const role = Cookies.get("supportUserRole");
+      const role = Cookies.get("db_s_userRole");
       if (role !== undefined) {
         dispatch({
           type: "UserLogin",
@@ -29,28 +28,24 @@ export default function MyApp({ Component, pageProps }) {
     setLoggedInDetails();
   }, []);
 
-  useEffect(
-    () => {
-      const handleStart = url => {
-        // console.log(`Loading: ${url}`);
-        NProgress.start()
-      };
+  const router = useRouter();
+  useEffect(() => {
+    const handleStart = url => {
+      NProgress.start()
+    };
+    const handleStop = () => {
+      NProgress.done();
+    };
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleStop);
+    router.events.on("routeChangeError", handleStop);
 
-      const handleStop = () => {
-        NProgress.done();
-        // console.log(`Loading Stop`);
-      };
-
-      router.events.on("routeChangeStart", handleStart);
-      router.events.on("routeChangeComplete", handleStop);
-      router.events.on("routeChangeError", handleStop);
-
-      return () => {
-        router.events.off("routeChangeStart", handleStart);
-        router.events.off("routeChangeComplete", handleStop);
-        router.events.off("routeChangeError", handleStop);
-      };
-    },
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleStop);
+      router.events.off("routeChangeError", handleStop);
+    };
+  },
     [router]
   );
 
@@ -61,13 +56,31 @@ export default function MyApp({ Component, pageProps }) {
         <meta charSet="UTF-8" />
         <meta name="author" content="Akshat Gadodia" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="https://fonts.googleapis.com" rel="preconnect" />
-        <link
-          href="https://fonts.gstatic.com"
-          rel="preconnect"
-          crossorigin="anonymous"
-        />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="favicon-512x512.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="64x64" href="favicon-64x64.png" />
+        <link rel="icon" type="image/png" sizes="128x128" href="favicon-128x128.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
       </Head>
+      {/* <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-VYMRDDLQCS" />
+      <Script
+        id='google-analytics'
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-VYMRDDLQCS', {
+            page_path: window.location.pathname,
+          });
+        `,
+        }}
+      /> */}
       <Component {...pageProps} />
     </AppContext.Provider>
   );
