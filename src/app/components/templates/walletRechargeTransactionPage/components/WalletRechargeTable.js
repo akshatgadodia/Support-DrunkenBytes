@@ -15,9 +15,11 @@ const WalletRechargeTable = (props) => {
   const [refresh, setRefresh] = useState(false);
   const [filters, setFilters] = useState({});
   const searchInput = useRef(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     setFilters({});
+    setRefreshKey(refreshKey + 1);
   }, [props.clearFilters]);
 
   useEffect(() => {
@@ -285,6 +287,14 @@ const WalletRechargeTable = (props) => {
       ),
     },
     {
+      title: "Created By",
+      dataIndex: "createdBy",
+      key: "createdBy",
+      render: (_, { createdBy }) => (
+        <Link href={`/users/${createdBy._id}`}>{createdBy.name}</Link>
+      ),
+    },
+    {
       title: "Date Created",
       dataIndex: "dateCreated",
       key: "dateCreated",
@@ -339,6 +349,7 @@ const WalletRechargeTable = (props) => {
 
   return (
     <Table
+      key={refreshKey}
       size="small"
       columns={columns}
       dataSource={tableData}

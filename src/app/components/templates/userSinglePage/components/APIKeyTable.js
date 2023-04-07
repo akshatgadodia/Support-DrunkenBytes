@@ -1,36 +1,64 @@
 import React from "react";
 import { SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Space, Table, Tag  } from "antd";
+import { Button, Input, Space, Table, notification } from "antd";
 import { useRef, useState, useEffect } from "react";
 import { useHttpClient } from "@/app/hooks/useHttpClient";
-import Link from "next/link";
+import { DeleteOutlined } from "@ant-design/icons"
 
-const CustomTable = props => {
-  const { sendRequest, isLoading } = useHttpClient();
-  const [tableData, setTableData] = useState(props.users);
-  const [totalData, setTotalData] = useState(props.totalUsers)
+const APIKeyTable = props => {
+  const { sendRequest, isLoading, error } = useHttpClient();
+  const [tableData, setTableData] = useState([]);
+  const [totalApiKeys, setTotalApiKeys] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [filters, setFilters] = useState({});
+  const [refresh, setRefresh] = useState(false);
   const searchInput = useRef(null);
-  
-  useEffect(() => {
-    setTableData(props.data);
-    setTotalData(props.totalData);
-  }, [props]);
+
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     let queryParams = []
+  //     for (const key in filters) {
+  //       queryParams.push(JSON.stringify({ [key]: filters[key] }))
+  //     }
+  //     const apiKeysData = await sendRequest(`/api-key/get-api-keys?q=${queryParams}&page=${currentPage}&size=${pageSize}`);
+  //     setTableData(apiKeysData.apiKeys)
+  //     setTotalApiKeys(apiKeysData.totalApiKeys)
+  //   }
+  //   getData()
+  // }, []);
 
   useEffect(() => {
-    const getData = async() => {
+    const getData = async () => {
       let queryParams = []
       for (const key in filters) {
-        queryParams.push(JSON.stringify({[key]: filters[key]}))
+        queryParams.push(JSON.stringify({ [key]: filters[key] }))
       }
-      const usersData = await sendRequest(`/user/get-all-users?q=${queryParams}&page=${currentPage}&size=${pageSize}`);
-      setTableData(usersData.users)
-      setTotalData(usersData.totalUsers)
+      const apiKeysData = await sendRequest(`/api-key/get-api-keys?q=${queryParams}&page=${currentPage}&size=${pageSize}`);
+      setTableData(apiKeysData.apiKeys)
+      setTotalApiKeys(apiKeysData.totalApiKeys)
     }
     getData()
-  },[currentPage, pageSize, filters])
+  }, [currentPage, pageSize, filters, props.modalOpen, refresh])
+
+  const deleteApiKey = async apiKey => {
+    try {
+      await sendRequest(
+        `/api-key/delete-api-key/${apiKey}`,
+        "DELETE"
+      );
+      if (!error) {
+        notification.success({
+          message: "Success",
+          description: "API Key Deleted Successfully",
+          placement: "top",
+          // duration: null,
+          className: "error-notification"
+        });
+        setRefresh(!refresh);
+      }
+    } catch (err) { }
+  };
 
   const handleSearch = async (close, selectedKeys, dataIndex) => {
     close();
@@ -39,14 +67,12 @@ const CustomTable = props => {
       [dataIndex]: selectedKeys[0]
     }));
   };
-
   const handleReset = (close, dataIndex, setSelectedKeys) => {
     setSelectedKeys([]);
     close();
     const { [dataIndex]: tmp, ...rest } = filters;
     setFilters(rest);
   };
-
   const onPageChangeHandler = async (current, size) => {
     setCurrentPage(current);
     setPageSize(size)
@@ -84,8 +110,9 @@ const CustomTable = props => {
             Search
           </Button>
           <Button
-          onClick={() =>
-              clearFilters && handleReset(close, dataIndex, setSelectedKeys)}
+            onClick={() => {
+              clearFilters && handleReset(close, dataIndex, setSelectedKeys);
+            }}
             size="small"
             style={{
               width: 90,
@@ -120,41 +147,32 @@ const CustomTable = props => {
       }
     },
     render: (text) =>
-        text
+      text
   });
   const columns = [
     {
-      title: "User Name",
+      title: "API Key Name",
       dataIndex: "name",
       key: "name",
-      ...getColumnSearchProps('name'),
-      render: (_, { _id, name }) =>
-        <Link href={`/users/${_id}`}>
-          {name}
-        </Link>
+      ...getColumnSearchProps('name')
     },
     {
-      title: "Account Address",
-      dataIndex: "accountAddress",
-      key: "accountAddress",
-      ...getColumnSearchProps('accountAddress'),
+      title: "API Key",
+      dataIndex: "apiKey",
+      key: "apiKey",
+      ...getColumnSearchProps('apiKey')
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      ...getColumnSearchProps('email'),
-    },
-    {
-      title: "Wallet Balance",
-      dataIndex: "walletBalance",
-      key: "walletBalance",
-      sorter: (a, b) => a.walletBalance > b.walletBalance,
-      sortDirections: ["descend", "ascend"],
-      render: (_, { walletBalance }) =>
-        <div>
-          {`${Number(walletBalance).toFixed(10)} ETH`}
-        </div>
+      title: "Delete",
+      dataIndex: "apiKey",
+      key: "apiKey",
+      render: (_, { apiKey }) =>
+        <Button
+          type="text"
+          onClick={() => deleteApiKey(apiKey)}
+        >
+          <DeleteOutlined />
+        </Button>
     }
   ];
 
@@ -163,15 +181,15 @@ const CustomTable = props => {
       size="small"
       columns={columns}
       dataSource={tableData}
-      pagination={{ size: 'default', total: totalData, pageSize: pageSize, showSizeChanger: true, responsive: true, onChange:onPageChangeHandler}}
+      pagination={{ size: 'default', total: totalApiKeys, pageSize: pageSize, showSizeChanger: true, responsive: true, onChange: onPageChangeHandler }}
       bordered
       scroll={{
         x: "max-content"
       }}
       loading={isLoading}
-      rowKey="id"
+      rowKey="_id"
     />
   );
 };
 
-export default CustomTable;
+export default APIKeyTable;

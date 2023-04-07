@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../stylesheets/createNFTModal.module.css";
+import styles from "./stylesheets/createNFTModal.module.css";
 import { Modal } from "antd";
 import { BLOCK_EXPLORER_URL } from "@/app/constants/constants";
 

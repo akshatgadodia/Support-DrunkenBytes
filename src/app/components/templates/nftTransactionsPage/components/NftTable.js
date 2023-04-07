@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import { useHttpClient } from "@/app/hooks/useHttpClient";
 import Link from "next/link";
 import moment from "moment";
+import CreateNftModal from "@/app/components/modules/CreateNFTModal";
 
 const NftTable = (props) => {
   const { sendRequest, isLoading, error } = useHttpClient();
@@ -15,9 +16,13 @@ const NftTable = (props) => {
   const [refresh, setRefresh] = useState(false);
   const [filters, setFilters] = useState({});
   const searchInput = useRef(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
+  const [transactionID, setTransactionID] = useState("");
 
   useEffect(() => {
     setFilters({});
+    setRefreshKey(refreshKey + 1);
   }, [props.clearFilters]);
 
   useEffect(() => {
@@ -54,11 +59,19 @@ const NftTable = (props) => {
   };
 
   const repeatTransactionHandler = async (txId) => {
-    await sendRequest(
-      "/nft-transaction/repeat-transaction",
-      "POST",
-      JSON.stringify({ txId })
-    );
+    try {
+      const result =  await sendRequest(
+        "/nft-transaction/repeat-transaction",
+        "POST",
+        JSON.stringify({ txId })
+      );
+      if (!error) {
+        setTransactionID(result.txId);
+        setOpenModal(true);
+      }
+      setRefresh(!refresh);
+    } catch (err) {}
+   
   };
 
   const getColumnSearchProps = (dataIndex) => ({
@@ -459,25 +472,34 @@ const NftTable = (props) => {
   ];
 
   return (
-    <Table
-      size="small"
-      columns={columns}
-      dataSource={tableData}
-      pagination={{
-        size: "default",
-        total: totalTransactions,
-        pageSize: pageSize,
-        showSizeChanger: true,
-        responsive: true,
-        onChange: onPageChangeHandler,
-      }}
-      bordered
-      scroll={{
-        x: "max-content",
-      }}
-      loading={isLoading}
-      rowKey="_id"
-    />
+    <>
+      <CreateNftModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        transactionID={transactionID}
+      />
+      <Table
+        key={refreshKey}
+        size="small"
+        columns={columns}
+        filters={filters}
+        dataSource={tableData}
+        pagination={{
+          size: "default",
+          total: totalTransactions,
+          pageSize: pageSize,
+          showSizeChanger: true,
+          responsive: true,
+          onChange: onPageChangeHandler,
+        }}
+        bordered
+        scroll={{
+          x: "max-content",
+        }}
+        loading={isLoading}
+        rowKey="_id"
+      />
+    </>
   );
 };
 

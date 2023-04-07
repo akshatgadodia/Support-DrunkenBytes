@@ -1,21 +1,26 @@
 import React from "react";
-import styles from "./userPage.module.css";
 import Head from "next/head";
-import CustomTable from "./components/CustomTable";
+import FirstFold from "./components/FirstFold";
+import SecondFold from './components/SecondFold';
 
-const UserPage = props => {
+const UserPage = () => {
   return (
-    <div className={`${styles.userDiv} transactionDiv`}>
+    <>
       <Head>
-        <title>Users | Support Drunken Bytes</title>
+        <title>Users | Drunken Bytes</title>
+        <meta name="description" content="View all your NFT transactions in one place on the Drunken Bytes transaction page. Keep track of your NFT sales, purchases, and transfers effortlessly."></meta>
+        <meta name="keywords" content="Drunken Bytes, NFT transactions, transaction history, NFT sales, NFT purchases, NFT transfers."/>
+        <meta property="og:title" content="NFT Transactions | Drunken Bytes" />
+        <meta property="og:description" content="View all your NFT transactions in one place on the Drunken Bytes transaction page. Keep track of your NFT sales, purchases, and transfers effortlessly." />
+        <meta property="og:image" content="" />
+        <meta name="twitter:title" content="NFT Transactions | Drunken Bytes" />
+        <meta name="twitter:description" content="View all your NFT transactions in one place on the Drunken Bytes transaction page. Keep track of your NFT sales, purchases, and transfers effortlessly." />
+        <meta name="twitter:image" content=""/>
+        <link rel="canonical" href="https://drunkenbytes.vercel.app/transactions/nft" />
       </Head>
-      <h1>Users</h1>
-      <p>View all Users.</p>
-      <CustomTable
-        data={props.users}
-        totolData={props.totalUsers}
-      />
-    </div>
+      <FirstFold />
+      <SecondFold />
+    </>
   );
 };
 
