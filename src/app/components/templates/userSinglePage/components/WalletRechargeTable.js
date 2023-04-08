@@ -12,14 +12,15 @@ const WalletRechargeTable = (props) => {
   const [totalTransactions, setTotalTransactions] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [refresh, setRefresh] = useState(false);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({ createdBy: props.id });
   const searchInput = useRef(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [sort, setSort] = useState({});
 
   useEffect(() => {
-    setFilters({});
+    setFilters({ createdBy: props.id });
     setRefreshKey(refreshKey + 1);
+    setSort({});
   }, [props.clearFilters]);
 
   useEffect(() => {
@@ -29,13 +30,15 @@ const WalletRechargeTable = (props) => {
         filterParams.push(JSON.stringify({ [key]: filters[key] }));
       }
       const transactionsData = await sendRequest(
-        `/wallet-transaction/get-user-transactions/${props.id}?q=${filterParams}&page=${currentPage}&size=${pageSize}`
+        `/wallet-transaction/get-all-transactions?filters=${filterParams}&sort=${JSON.stringify(
+          sort
+        )}&page=${currentPage}&size=${pageSize}`
       );
       setTableData(transactionsData.transactions);
       setTotalTransactions(transactionsData.totalTransactions);
     };
     getData();
-  }, [currentPage, pageSize, filters, refresh]);
+  }, [currentPage, pageSize, filters, sort]);
 
   const handleSearch = async (close, selectedKeys, dataIndex) => {
     close();
@@ -291,6 +294,7 @@ const WalletRechargeTable = (props) => {
       dataIndex: "dateCreated",
       key: "dateCreated",
       ...getColumnDateProps("dateCreated"),
+      sorter: true,
       render: (_, { dateCreated }) => (
         <div>
           {new Date(dateCreated).getDate() +
@@ -335,6 +339,7 @@ const WalletRechargeTable = (props) => {
       title: "Value",
       dataIndex: "value",
       key: "value",
+      sorter: true,
       render: (_, { value }) => <div>{`${value} ETH`}</div>,
     },
   ];
@@ -359,6 +364,9 @@ const WalletRechargeTable = (props) => {
       }}
       loading={isLoading}
       rowKey="_id"
+      onChange={(pagination, filters, sorter) => {
+        setSort({ [sorter.field]: sorter.order === "ascend" ? 1 : -1 });
+      }}
     />
   );
 };

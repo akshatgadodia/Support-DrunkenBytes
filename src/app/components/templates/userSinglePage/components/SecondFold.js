@@ -30,6 +30,10 @@ const SecondFold = (props) => {
         />
       </div>
       <div className={styles.detailsDiv}>
+      <div className={styles.detail}>
+          <p className={styles.title}>ID: </p>
+          <p className={styles.value}>{props.userData._id}</p>
+        </div>
         <div className={styles.detail}>
           <p className={styles.title}>Name: </p>
           <p className={styles.value}>{props.userData.name}</p>
@@ -72,9 +76,9 @@ const SecondFold = (props) => {
         items={[
           { key: "1", label: "NFT Transactions", children: <NftTable id={props.userData._id}/> },
           { key: "2", label: "Wallet Recharge Transactions", children: <WalletRechargeTable id={props.userData._id}/> },
-          { key: "3", label: "API Keys", children: <APIKeyTable /> },
-          { key: "4", label: "Templates", children: <TemplateTable /> },
-          { key: "5", label: "Issues", children: <IssuesTable /> },
+          { key: "3", label: "API Keys", children: <APIKeyTable id={props.userData._id}/> },
+          { key: "4", label: "Templates", children: <TemplateTable id={props.userData._id}/> },
+          { key: "5", label: "Issues", children: <IssuesTable id={props.userData._id}/> },
         ]}
       />
     </div>

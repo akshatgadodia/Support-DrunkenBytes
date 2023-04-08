@@ -23,7 +23,10 @@
 .ant-spin-dot-item{
   background-color: var(--purple) !important;
 }
-
+.ant-spin-text{
+  color: var(--purple) !important;
+  font-size: 16px !important;
+}
 .ant-select-selector, .ant-select-selection-search{
   height: 50px !important;
 }

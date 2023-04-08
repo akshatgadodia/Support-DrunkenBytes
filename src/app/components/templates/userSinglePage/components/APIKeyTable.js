@@ -3,68 +3,63 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table, notification } from "antd";
 import { useRef, useState, useEffect } from "react";
 import { useHttpClient } from "@/app/hooks/useHttpClient";
-import { DeleteOutlined } from "@ant-design/icons"
+import { DeleteOutlined } from "@ant-design/icons";
 
-const APIKeyTable = props => {
+const APIKeyTable = (props) => {
   const { sendRequest, isLoading, error } = useHttpClient();
   const [tableData, setTableData] = useState([]);
-  const [totalApiKeys, setTotalApiKeys] = useState(0)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [filters, setFilters] = useState({});
+  const [totalApiKeys, setTotalApiKeys] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [filters, setFilters] = useState({ createdBy: props.id });
   const [refresh, setRefresh] = useState(false);
   const searchInput = useRef(null);
+  const [sort, setSort] = useState({});
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     let queryParams = []
-  //     for (const key in filters) {
-  //       queryParams.push(JSON.stringify({ [key]: filters[key] }))
-  //     }
-  //     const apiKeysData = await sendRequest(`/api-key/get-api-keys?q=${queryParams}&page=${currentPage}&size=${pageSize}`);
-  //     setTableData(apiKeysData.apiKeys)
-  //     setTotalApiKeys(apiKeysData.totalApiKeys)
-  //   }
-  //   getData()
-  // }, []);
+  useEffect(() => {
+    setFilters({ createdBy: props.id });
+    setRefreshKey(refreshKey + 1);
+    // setSort({});
+  }, [props.clearFilters]);
 
   useEffect(() => {
     const getData = async () => {
-      let queryParams = []
+      let filterParams = [];
       for (const key in filters) {
-        queryParams.push(JSON.stringify({ [key]: filters[key] }))
+        filterParams.push(JSON.stringify({ [key]: filters[key] }));
       }
-      const apiKeysData = await sendRequest(`/api-key/get-api-keys?q=${queryParams}&page=${currentPage}&size=${pageSize}`);
-      setTableData(apiKeysData.apiKeys)
-      setTotalApiKeys(apiKeysData.totalApiKeys)
-    }
-    getData()
-  }, [currentPage, pageSize, filters, props.modalOpen, refresh])
-
-  const deleteApiKey = async apiKey => {
-    try {
-      await sendRequest(
-        `/api-key/delete-api-key/${apiKey}`,
-        "DELETE"
+      const apiKeysData = await sendRequest(
+        `/api-key/get-all-api-keys?filters=${filterParams}&sort=${JSON.stringify(
+          sort
+        )}&page=${currentPage}&size=${pageSize}`
       );
+      setTableData(apiKeysData.apiKeys);
+      setTotalApiKeys(apiKeysData.totalApiKeys);
+    };
+    getData();
+  }, [currentPage, pageSize, filters, refresh, sort]);
+
+  const deleteApiKey = async (apiKey) => {
+    try {
+      await sendRequest(`/api-key/delete-api-key/${apiKey}`, "DELETE");
       if (!error) {
         notification.success({
           message: "Success",
           description: "API Key Deleted Successfully",
           placement: "top",
-          // duration: null,
-          className: "error-notification"
+          className: "error-notification",
         });
         setRefresh(!refresh);
       }
-    } catch (err) { }
+    } catch (err) {}
   };
 
   const handleSearch = async (close, selectedKeys, dataIndex) => {
     close();
-    setFilters(prevState => ({
+    setFilters((prevState) => ({
       ...prevState,
-      [dataIndex]: selectedKeys[0]
+      [dataIndex]: selectedKeys[0],
     }));
   };
   const handleReset = (close, dataIndex, setSelectedKeys) => {
@@ -75,10 +70,16 @@ const APIKeyTable = props => {
   };
   const onPageChangeHandler = async (current, size) => {
     setCurrentPage(current);
-    setPageSize(size)
-  }
+    setPageSize(size);
+  };
   const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
       <div
         style={{
           padding: 8,
@@ -89,11 +90,13 @@ const APIKeyTable = props => {
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
           onPressEnter={() => handleSearch(close, selectedKeys, dataIndex)}
           style={{
             marginBottom: 8,
-            display: 'block',
+            display: "block",
           }}
         />
         <Space>
@@ -104,7 +107,7 @@ const APIKeyTable = props => {
             size="small"
             style={{
               width: 90,
-              color: 'var(--white)'
+              color: "var(--white)",
             }}
           >
             Search
@@ -135,7 +138,7 @@ const APIKeyTable = props => {
     filterIcon: (filtered) => (
       <SearchOutlined
         style={{
-          color: filtered ? '#1890ff' : undefined,
+          color: filtered ? "#1890ff" : undefined,
         }}
       />
     ),
@@ -146,48 +149,56 @@ const APIKeyTable = props => {
         setTimeout(() => searchInput.current?.select(), 100);
       }
     },
-    render: (text) =>
-      text
+    render: (text) => text,
   });
   const columns = [
     {
       title: "API Key Name",
       dataIndex: "name",
       key: "name",
-      ...getColumnSearchProps('name')
+      ...getColumnSearchProps("name"),
     },
     {
       title: "API Key",
       dataIndex: "apiKey",
       key: "apiKey",
-      ...getColumnSearchProps('apiKey')
+      ...getColumnSearchProps("apiKey"),
     },
     {
       title: "Delete",
       dataIndex: "apiKey",
       key: "apiKey",
-      render: (_, { apiKey }) =>
-        <Button
-          type="text"
-          onClick={() => deleteApiKey(apiKey)}
-        >
+      render: (_, { apiKey }) => (
+        <Button type="text" onClick={() => deleteApiKey(apiKey)}>
           <DeleteOutlined />
         </Button>
-    }
+      ),
+    },
   ];
 
   return (
     <Table
+      key={refreshKey}
       size="small"
       columns={columns}
       dataSource={tableData}
-      pagination={{ size: 'default', total: totalApiKeys, pageSize: pageSize, showSizeChanger: true, responsive: true, onChange: onPageChangeHandler }}
+      pagination={{
+        size: "default",
+        total: totalApiKeys,
+        pageSize: pageSize,
+        showSizeChanger: true,
+        responsive: true,
+        onChange: onPageChangeHandler,
+      }}
       bordered
       scroll={{
-        x: "max-content"
+        x: "max-content",
       }}
       loading={isLoading}
       rowKey="_id"
+      // onChange={(pagination, filters, sorter) => {
+      //   setSort({ [sorter.field]: sorter.order === "ascend" ? 1 : -1 });
+      // }}
     />
   );
 };

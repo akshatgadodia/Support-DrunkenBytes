@@ -363,6 +363,7 @@ const NftTable = (props) => {
         { title: "Document NFT", value: "document" },
         { title: "Other", value: "other" },
       ]),
+      render: (_, { nftType }) => <div>{nftType.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
     },
     {
       title: "NFT Name",
@@ -378,7 +379,7 @@ const NftTable = (props) => {
         { title: "Custom Image used", value: true },
         { title: "Auto Generated Image Used", value: false },
       ]),
-      render: (_, { useCustomImage }) => <div>{useCustomImage.toString()}</div>,
+      render: (_, { useCustomImage }) => <div>{useCustomImage.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
     },
     {
       title: "Soulbound",
@@ -388,7 +389,7 @@ const NftTable = (props) => {
         { title: "Transferable", value: true },
         { title: "Not Transferable", value: false },
       ]),
-      render: (_, { isTransferable }) => <div>{isTransferable.toString()}</div>,
+      render: (_, { isTransferable }) => <div>{isTransferable.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
     },
     {
       title: "Permanent",
@@ -398,7 +399,7 @@ const NftTable = (props) => {
         { title: "Burnable", value: true },
         { title: "Not Burnable", value: false },
       ]),
-      render: (_, { isBurnable }) => <div>{isBurnable.toString()}</div>,
+      render: (_, { isBurnable }) => <div>{isBurnable.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
     },
     {
       title: "Burn After",

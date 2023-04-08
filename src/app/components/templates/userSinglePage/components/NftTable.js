@@ -14,15 +14,17 @@ const NftTable = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [refresh, setRefresh] = useState(false);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({createdBy: props.id});
   const searchInput = useRef(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [transactionID, setTransactionID] = useState("");
+  const [sort, setSort] = useState({})
 
   useEffect(() => {
-    setFilters({});
+    setFilters({createdBy: props.id});
     setRefreshKey(refreshKey + 1);
+    setSort({});
   }, [props.clearFilters]);
 
   useEffect(() => {
@@ -32,13 +34,13 @@ const NftTable = (props) => {
         filterParams.push(JSON.stringify({ [key]: filters[key] }));
       }
       const transactionsData = await sendRequest(
-        `/nft-transaction/get-user-transactions/${props.id}?q=${filterParams}&page=${currentPage}&size=${pageSize}`
+        `/nft-transaction/get-all-transactions?filters=${filterParams}&sort=${JSON.stringify(sort)}&page=${currentPage}&size=${pageSize}`
       );
       setTableData(transactionsData.transactions);
       setTotalTransactions(transactionsData.totalTransactions);
     };
     getData();
-  }, [currentPage, pageSize, filters, refresh]);
+  }, [currentPage, pageSize, filters, refresh, sort]);
 
   const handleSearch = async (close, selectedKeys, dataIndex) => {
     close();
@@ -324,12 +326,14 @@ const NftTable = (props) => {
       dataIndex: "tokenId",
       key: "tokenId",
       ...getColumnSearchProps("tokenId"),
+      sorter: true,
     },
     {
       title: "Date Created",
       dataIndex: "dateCreated",
       key: "dateCreated",
       ...getColumnDateProps("dateCreated"),
+      sorter: true,
       render: (_, { dateCreated }) => (
         <div>
           {new Date(dateCreated).getDate() +
@@ -355,6 +359,7 @@ const NftTable = (props) => {
         { title: "Document NFT", value: "document" },
         { title: "Other", value: "other" },
       ]),
+      render: (_, { nftType }) => <div>{nftType.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
     },
     {
       title: "NFT Name",
@@ -370,7 +375,7 @@ const NftTable = (props) => {
         { title: "Custom Image used", value: true },
         { title: "Auto Generated Image Used", value: false },
       ]),
-      render: (_, { useCustomImage }) => <div>{useCustomImage.toString()}</div>,
+      render: (_, { useCustomImage }) => <div>{useCustomImage.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
     },
     {
       title: "Soulbound",
@@ -380,7 +385,7 @@ const NftTable = (props) => {
         { title: "Transferable", value: true },
         { title: "Not Transferable", value: false },
       ]),
-      render: (_, { isTransferable }) => <div>{isTransferable.toString()}</div>,
+      render: (_, { isTransferable }) => <div>{isTransferable.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
     },
     {
       title: "Permanent",
@@ -390,7 +395,7 @@ const NftTable = (props) => {
         { title: "Burnable", value: true },
         { title: "Not Burnable", value: false },
       ]),
-      render: (_, { isBurnable }) => <div>{isBurnable.toString()}</div>,
+      render: (_, { isBurnable }) => <div>{isBurnable.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
     },
     {
       title: "Burn After",
@@ -474,7 +479,6 @@ const NftTable = (props) => {
         key={refreshKey}
         size="small"
         columns={columns}
-        filters={filters}
         dataSource={tableData}
         pagination={{
           size: "default",
@@ -490,6 +494,9 @@ const NftTable = (props) => {
         }}
         loading={isLoading}
         rowKey="_id"
+        onChange={(pagination, filters, sorter) => {
+          setSort({[sorter.field]: sorter.order === 'ascend' ? 1 : -1});
+        }}
       />
     </>
   );
