@@ -20,7 +20,7 @@ const SecondFold = props => {
         <div className={styles.detail}>
           <p className={styles.title}>Created By: </p>
           <p className={styles.value}>
-            <Link href={`/user/${props.transactionData.createdBy._id}`}>
+            <Link href={`/users/${props.transactionData.createdBy._id}`}>
               {props.transactionData.createdBy.name}
             </Link>
           </p>

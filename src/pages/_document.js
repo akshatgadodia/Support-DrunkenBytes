@@ -15,6 +15,7 @@ export default function Document() {
                 <link rel="icon" type="image/png" sizes="128x128" href="favicon-128x128.png" />
                 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
                 <link rel="icon" type="image/x-icon" href="favicon.ico" />
+                <meta name="robots" content="noindex"/>
             </Head>
             <body>
                 <Main />

@@ -1,30 +1,27 @@
 import React from "react";
-import { SearchOutlined, RedoOutlined, FilterFilled } from "@ant-design/icons";
-import { Button, Input, Space, Table, Tag, DatePicker, Radio } from "antd";
+import { SearchOutlined, CloseOutlined, FilterFilled } from "@ant-design/icons";
+import { Button, Input, Space, Table, DatePicker, Radio, notification, Modal } from "antd";
 import { useRef, useState, useEffect } from "react";
 import { useHttpClient } from "@/app/hooks/useHttpClient";
 import Link from "next/link";
 import moment from "moment";
-import CreateNftModal from "@/app/components/modules/CreateNFTModal";
 
-const NftTable = (props) => {
+const TicketTable = (props) => {
   const { sendRequest, isLoading, error } = useHttpClient();
   const [tableData, setTableData] = useState([]);
-  const [totalTransactions, setTotalTransactions] = useState(0);
+  const [totalTickets, setTotalTickets] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [refresh, setRefresh] = useState(false);
   const [filters, setFilters] = useState();
   const searchInput = useRef(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [openModal, setOpenModal] = useState(false);
-  const [transactionID, setTransactionID] = useState("");
-  const [sort, setSort] = useState({})
+  const [sort, setSort] = useState({});
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     setFilters();
-    setRefreshKey(refreshKey + 1);
     setSort({});
+    setRefreshKey(refreshKey + 1);
   }, [props.clearFilters]);
 
   useEffect(() => {
@@ -33,14 +30,43 @@ const NftTable = (props) => {
       for (const key in filters) {
         filterParams.push(JSON.stringify({ [key]: filters[key] }));
       }
-      const transactionsData = await sendRequest(
-        `/nft-transaction/get-all-transactions?filters=${filterParams}&sort=${JSON.stringify(sort)}&page=${currentPage}&size=${pageSize}`
+      const ticketsData = await sendRequest(
+        `/ticket/get-tickets?filters=${filterParams}&sort=${JSON.stringify(
+          sort
+        )}&page=${currentPage}&size=${pageSize}`
       );
-      setTableData(transactionsData.transactions);
-      setTotalTransactions(transactionsData.totalTransactions);
+      console.log(ticketsData);
+      setTableData(ticketsData.tickets);
+      setTotalTickets(ticketsData.totalTickets);
     };
     getData();
-  }, [currentPage, pageSize, filters, refresh, sort]);
+  }, [currentPage, pageSize, filters, sort, refresh]);
+
+  const closeTicket = async (id) => {
+    Modal.confirm({
+      title: "Confirm",
+      content: `Are you sure that you want to close this ticket?`,
+      okText: "Yes",
+      cancelText: "No",
+      className: "confirm-modal",
+      async onOk() {
+        try {
+          await sendRequest(`/ticket/${id}/close/`, "PUT");
+          if (!error) {
+            notification.success({
+              message: "Success",
+              description: "Ticket Closed Successfully",
+              placement: "top",
+              className: "error-notification",
+            });
+            setRefresh(!refresh);
+          }
+        } catch (err) {}
+      },
+      onCancel() {},
+    });
+    
+  };
 
   const handleSearch = async (close, selectedKeys, dataIndex) => {
     close();
@@ -53,27 +79,12 @@ const NftTable = (props) => {
     setSelectedKeys([]);
     close();
     const { [dataIndex]: tmp, ...rest } = filters;
+    console.log(rest);
     setFilters(rest);
   };
   const onPageChangeHandler = async (current, size) => {
     setCurrentPage(current);
     setPageSize(size);
-  };
-
-  const repeatTransactionHandler = async (txId) => {
-    try {
-      const result =  await sendRequest(
-        "/nft-transaction/repeat-transaction",
-        "POST",
-        JSON.stringify({ txId })
-      );
-      if (!error) {
-        setTransactionID(result.txId);
-        setOpenModal(true);
-      }
-      setRefresh(!refresh);
-    } catch (err) {}
-   
   };
 
   const getColumnSearchProps = (dataIndex) => ({
@@ -297,44 +308,23 @@ const NftTable = (props) => {
 
   const columns = [
     {
-      title: "Transaction Hash",
-      dataIndex: "txId",
-      key: "txId",
-      ...getColumnSearchProps("txId"),
-      render: (_, { txId }) => (
-        <Link href={`/transactions/nft/${txId}`}>
-          {`${txId.slice(0, 4)}...${txId.slice(-6)}`}
-        </Link>
-      ),
+      title: "Ticket ID",
+      dataIndex: "_id",
+      key: "_id",
+      ...getColumnSearchProps("_id"),
+      render: (_, { _id }) => <Link href={`/tickets/${_id}`}>{_id}</Link>,
     },
     {
-      title: "Created By",
-      dataIndex: "createdBy",
-      key: "createdBy",
-      render: (_, { createdBy }) => (
-        <Link href={`/users/${createdBy._id}`}>{createdBy.name}</Link>
-      ),
+      title: "Subject",
+      dataIndex: "subject",
+      key: "subject",
+      ...getColumnSearchProps("subject"),
     },
     {
-      title: "Receiver Wallet Address",
-      dataIndex: "receiverWalletAddress",
-      key: "receiverWalletAddress",
-      ...getColumnSearchProps("receiverWalletAddress"),
-      render: (_, { receiverWalletAddress }) => (
-        <div>
-          {`${receiverWalletAddress.slice(
-            0,
-            5
-          )}...${receiverWalletAddress.slice(-8)}`}
-        </div>
-      ),
-    },
-    {
-      title: "Token ID",
-      dataIndex: "tokenId",
-      key: "tokenId",
-      ...getColumnSearchProps("tokenId"),
-      sorter: true,
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      ...getColumnSearchProps("status"),
     },
     {
       title: "Date Created",
@@ -359,155 +349,87 @@ const NftTable = (props) => {
       ),
     },
     {
-      title: "Nft Type",
-      dataIndex: "nftType",
-      key: "nftType",
-      ...getColumnRadioProps("nftType", [
-        { title: "Product NFT", value: "product" },
-        { title: "Document NFT", value: "document" },
-        { title: "Other", value: "other" },
-      ]),
-      render: (_, { nftType }) => <div>{nftType.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
-    },
-    {
-      title: "NFT Name",
-      dataIndex: "nftName",
-      key: "nftName",
-      ...getColumnSearchProps("nftName"),
-    },
-    {
-      title: "Custom Image Used",
-      dataIndex: "useCustomImage",
-      key: "useCustomImage",
-      ...getColumnRadioProps("useCustomImage", [
-        { title: "Custom Image used", value: true },
-        { title: "Auto Generated Image Used", value: false },
-      ]),
-      render: (_, { useCustomImage }) => <div>{useCustomImage.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
-    },
-    {
-      title: "Soulbound",
-      dataIndex: "isTransferable",
-      key: "isTransferable",
-      ...getColumnRadioProps("isTransferable", [
-        { title: "Transferable", value: true },
-        { title: "Not Transferable", value: false },
-      ]),
-      render: (_, { isTransferable }) => <div>{isTransferable.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
-    },
-    {
-      title: "Permanent",
-      dataIndex: "isBurnable",
-      key: "isBurnable",
-      ...getColumnRadioProps("isBurnable", [
-        { title: "Burnable", value: true },
-        { title: "Not Burnable", value: false },
-      ]),
-      render: (_, { isBurnable }) => <div>{isBurnable.toString().replace(/^\w/, c => c.toUpperCase())}</div>,
-    },
-    {
-      title: "Burn After",
-      dataIndex: "burnAfter",
-      key: "burnAfter",
-      ...getColumnDateProps("burnAfter"),
-      render: (_, { burnAfter }) =>
-        burnAfter === null ? (
-          <div> Permanent </div>
-        ) : (
-          <div>
-            {new Date(burnAfter).getDate() +
-              "/" +
-              (new Date(burnAfter).getMonth() + 1) +
-              "/" +
-              new Date(burnAfter).getFullYear() +
-              " " +
-              new Date(burnAfter).getHours() +
-              ":" +
-              new Date(burnAfter).getMinutes() +
-              ":" +
-              new Date(burnAfter).getSeconds()}
-          </div>
-        ),
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      ...getColumnRadioProps("status", [
-        { title: "Success", value: "Success" },
-        { title: "Pending", value: "Pending" },
-        { title: "Failed", value: "Failed" },
-      ]),
-      render: (_, { status }) => (
-        <Tag
-          color={
-            status === "Success"
-              ? "green"
-              : status === "Pending"
-              ? "geekblue"
-              : "volcano"
-          }
-          key={status}
-        >
-          {status.toUpperCase()}
-        </Tag>
-      ),
-    },
-    {
-      title: "Value",
-      dataIndex: "value",
-      key: "value",
+      title: "Last Updated",
+      dataIndex: "lastUpdated",
+      key: "lastUpdated",
+      ...getColumnDateProps("lastUpdated"),
       sorter: true,
-      render: (_, { value }) => <div>{`${value} ETH`}</div>,
+      render: (_, { lastUpdated }) => (
+        <div>
+          {new Date(lastUpdated).getDate() +
+            "/" +
+            (new Date(lastUpdated).getMonth() + 1) +
+            "/" +
+            new Date(lastUpdated).getFullYear() +
+            " " +
+            new Date(lastUpdated).getHours() +
+            ":" +
+            new Date(lastUpdated).getMinutes() +
+            ":" +
+            new Date(lastUpdated).getSeconds()}
+        </div>
+      ),
     },
     {
-      title: "Retry",
-      dataIndex: "retry",
-      key: "retry",
-      render: (_, record) => (
-        <Button
-          type="text"
-          onClick={() => repeatTransactionHandler(record.txId)}
-          disabled={record.status !== "Failed"}
-        >
-          <RedoOutlined />
-        </Button>
-      ),
+      title: "Concerned Department",
+      dataIndex: "type",
+      key: "type",
+      ...getColumnRadioProps("type", [
+        { title: "Sales", value: "sales" },
+        { title: "Support", value: "support" },
+      ]),
+      render: (_, { type }) =>
+        type === "support" ? <div>Support</div> : <div>Sales</div>,
+    },
+    {
+      title: "Close Ticket",
+      dataIndex: "_id",
+      key: "_id",
+      ...getColumnRadioProps("isSolved", [
+        { title: "Closed", value: true },
+        { title: "Open", value: false },
+      ]),
+      render: (_, { _id, isSolved }) =>
+        isSolved ? (
+          <div>Already Closed</div>
+        ) : (
+          <Button
+            type="text"
+            onClick={() => {
+              closeTicket(_id);
+            }}
+          >
+            <CloseOutlined />
+          </Button>
+        ),
     },
   ];
 
   return (
-    <>
-      <CreateNftModal
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        transactionID={transactionID}
-      />
-      <Table
-        key={refreshKey}
-        size="small"
-        columns={columns}
-        dataSource={tableData}
-        pagination={{
-          size: "default",
-          total: totalTransactions,
-          pageSize: pageSize,
-          showSizeChanger: true,
-          responsive: true,
-          onChange: onPageChangeHandler,
-        }}
-        bordered
-        scroll={{
-          x: "max-content",
-        }}
-        loading={isLoading}
-        rowKey="_id"
-        onChange={(pagination, filters, sorter) => {
-          setSort({[sorter.field]: sorter.order === 'ascend' ? 1 : -1});
-        }}
-      />
-    </>
+    <Table
+      key={refreshKey}
+      size="small"
+      columns={columns}
+      dataSource={tableData}
+      pagination={{
+        size: "default",
+        total: totalTickets,
+        pageSize: pageSize,
+        showSizeChanger: true,
+        responsive: true,
+        onChange: onPageChangeHandler,
+      }}
+      bordered
+      scroll={{
+        x: "max-content",
+      }}
+      loading={isLoading}
+      rowKey="_id"
+      onChange={(pagination, filters, sorter) => {
+        setSort({ [sorter.field]: sorter.order === "ascend" ? 1 : -1 });
+      }}
+    />
   );
 };
 
-export default NftTable;
+export default TicketTable;
