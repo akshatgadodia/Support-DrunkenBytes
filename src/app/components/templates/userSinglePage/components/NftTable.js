@@ -422,6 +422,27 @@ const NftTable = (props) => {
         ),
     },
     {
+      title: "Transaction Type",
+      dataIndex: "transactionType",
+      key: "transactionType",
+      ...getColumnRadioProps("transactionType", [
+        { title: "Mint NFT", value: "Mint" },
+        { title: "Burn NFT", value: "Burn" },
+      ]),
+      render: (_, { transactionType }) => (
+        <Tag
+          color={
+            transactionType === "Mint"
+              ? "green"
+              : "volcano"
+          }
+          key={transactionType}
+        >
+          {transactionType.toUpperCase()}
+        </Tag>
+      ),
+    },
+    {
       title: "Status",
       dataIndex: "status",
       key: "status",

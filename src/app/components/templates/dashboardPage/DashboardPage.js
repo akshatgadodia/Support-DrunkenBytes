@@ -14,7 +14,7 @@ import OverflowScrolling from "react-overflow-scrolling";
 const Dashboard = props => {
   const { error, sendRequest, isLoading } = useHttpClient();
   const { loggedInDetails } = useContext(AppContext);
-  const [messagesData, setMessagesData] = useState(props.props.messagesData);
+  const [messagesData, setMessagesData] = useState([]);
   const [messagesPage, setMessagesPage] = useState(2);
   const [newsData, setNewsData] = useState(props.props.newsData);
   const [nextNewsPage, setNextNewsPage] = useState(props.props.nextNewsPage);
@@ -22,28 +22,32 @@ const Dashboard = props => {
 
   useEffect(()=>{
     const getMessagesByRole = async() => {
-      const messages = await sendRequest(`/message/get-messages?currentPage=1`);
-      setLoadMoreDisabled(false);
-      setMessagesData([...messages.messages]);
+      const tickets = await sendRequest(`/ticket/get-all-tickets?sort="{}"&page=1&size=10`);
+      if(tickets.totalTickets <= 10){
+        setLoadMoreDisabled(true);
+      }
+      setMessagesData([...tickets.tickets]);
     }
     getMessagesByRole();
   },[])
 
   const loadMoreMessagesHandler = async () => {
     const messages = await sendRequest(
-      `/message/get-messages?currentPage=${messagesPage}`
+      `/ticket/get-all-tickets?sort="{}"&page=${messagesPage}&size=10`
     );
-    if (messages.messages.length < 10) {
+    if (tickets.totalTickets < messagesPage*10) {
       setLoadMoreDisabled(true);
     }
-    setMessagesData([...messagesData, ...messages.messages]);
+    setMessagesData([...messagesData, ...tickets.tickets]);
     setMessagesPage(messagesPage + 1);
   };
 
   const refreshMessagesHandler = async () => {
-    const messages = await sendRequest(`/message/get-messages?currentPage=1`);
-    setLoadMoreDisabled(false);
-    setMessagesData([...messages.messages]);
+    const tickets = await sendRequest(`/ticket/get-all-tickets?sort="{}"&page=1&size=10`);
+    if(tickets.totalTickets <= 10){
+      setLoadMoreDisabled(true);
+    }
+    setMessagesData([...tickets.tickets]);
   };
 
   const loadMoreNewsHandler = async () => {
@@ -172,7 +176,7 @@ const Dashboard = props => {
             </div>}
         <div className={styles.middleDiv}>
           <span>
-            Messages
+            Tickets
             <ReloadOutlined
               className={styles.reloadIcon}
               onClick={refreshMessagesHandler}
@@ -187,11 +191,11 @@ const Dashboard = props => {
                 return (
                   <MessageDisplay
                     key={idx}
-                    date={data.date}
-                    messageBy={data.messageBy?.name ?? data.name}
+                    date={data.dateCreated}
+                    messageBy={data.createdBy?.name ?? data.name}
                     subject={data.subject}
-                    isRead={data.isRead}
                     id={data._id}
+                    isRead={data.isSolved}
                   />
                 );
               })}
@@ -201,8 +205,8 @@ const Dashboard = props => {
                 disabled={loadMoreDisabled}
               >
                 {loadMoreDisabled
-                  ? "No More Messages"
-                  : "Load More Messages..."}
+                  ? "No More Tickets"
+                  : "Load More Tickets..."}
               </button>
             </OverflowScrolling>
           </div>

@@ -27,10 +27,6 @@ export async function getStaticProps(context) {
       `${baseURL}/admin-dashboard/get-performance-data`,
       config
     );
-    const messages = await fetch(
-      `${baseURL}/message/get-dashboard-messages?currentPage=1`
-    );
-    const messagesData = await messages.json();
     const performanceData = await performance.json();
     const gas = await fetch(
       `https://api.owlracle.info/v3/goerli/gas?apikey=bf6e75b6686345f982f91bfedf1eb244&feeinusd=false&eip1559=false`,
@@ -67,7 +63,6 @@ export async function getStaticProps(context) {
         gasPrice: `${Number(gasData.speeds[3].gasPrice).toFixed(2)} gwei`,
         avgBlockTime: `${Number(gasData.avgTime).toFixed(2)} min`,
         gasLimit: 30000000,
-        messagesData: messagesData.data.messages,
         newsData: newsData.results,
         nextNewsPage: newsData.nextPage
       },

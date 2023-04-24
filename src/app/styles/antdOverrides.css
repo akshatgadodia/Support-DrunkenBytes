@@ -319,3 +319,7 @@
 .nested-table .ant-spin-nested-loading{
   width: 100% !important;
 }
+
+.change-password .ant-input{
+  background-color: #f9f8fa !important;
+}

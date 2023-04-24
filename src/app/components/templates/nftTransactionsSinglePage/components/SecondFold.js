@@ -86,6 +86,22 @@ const SecondFold = (props) => {
           <p className={styles.value}>{`${props.transactionData.value} ETH`}</p>
         </div>
         <div className={styles.detail}>
+          <p className={styles.title}>Transaction Type: </p>
+          <p className={styles.value}>
+            {
+              <Tag
+                color={
+                  props.transactionData.transactionType === "Mint"
+                    ? "green"
+                    : "volcano"
+                }
+              >
+                {props.transactionData.transactionType.toUpperCase()}
+              </Tag>
+            }
+          </p>
+        </div>
+        <div className={styles.detail}>
           <p className={styles.title}>Status: </p>
           <p className={styles.value}>
             {

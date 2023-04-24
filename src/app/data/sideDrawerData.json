@@ -72,12 +72,12 @@
     },
     {
       "key": "6",
-      "title": "FAQ",
+      "title": "Tickets",
       "data": [
         {
           "key": "6-A",
-          "title": "View All FAQ's",
-          "link": "/faq"
+          "title": "View All Tickets",
+          "link": "/tickets"
         }
       ]
     }
@@ -109,6 +109,57 @@
           "link": "/users"
         }
       ]
+    },
+    {
+      "key": "3",
+      "title": "Tickets",
+      "data": [
+        {
+          "key": "3-A",
+          "title": "View All Tickets",
+          "link": "/tickets"
+        }
+      ]
+    }
+  ],
+  "SALES": [
+    {
+      "key": "1",
+      "title": "Transactions",
+      "data": [
+        {
+          "key": "1-A",
+          "title": "View All NFT Transactions",
+          "link": "/transactions/nft"
+        },
+        {
+          "key": "1-B",
+          "title": "View All Wallet Recharge Transactions",
+          "link": "/transactions/wallet-recharge"
+        }
+      ]
+    },
+    {
+      "key": "2",
+      "title": "Users",
+      "data": [
+        {
+          "key": "2-A",
+          "title": "Users",
+          "link": "/users"
+        }
+      ]
+    },
+    {
+      "key": "3",
+      "title": "Tickets",
+      "data": [
+        {
+          "key": "3-A",
+          "title": "View All Tickets",
+          "link": "/tickets"
+        }
+      ]
     }
   ],
   "EDITOR": [
@@ -136,12 +187,12 @@
     },
     {
       "key": "3",
-      "title": "FAQ",
+      "title": "Tickets",
       "data": [
         {
           "key": "3-A",
-          "title": "View All FAQ's",
-          "link": "/faq"
+          "title": "View All Tickets",
+          "link": "/tickets"
         }
       ]
     }

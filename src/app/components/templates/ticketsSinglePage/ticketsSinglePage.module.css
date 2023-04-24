@@ -86,6 +86,7 @@
 }
 .input{
     width: 100% !important;
+    min-height: 40px;
     background-color: #f9f8fa !important;
     border: 0.6px solid #cacbdf !important;
     border-radius: 4px;
@@ -101,6 +102,11 @@
 .button:hover{
     background-color: var(--purple) !important;
     opacity: 0.9;
+}
+.informationParagraph{
+    font-weight: 500;
+    font-size: 18px;
+    padding-bottom: 10px;
 }
 @media only screen and (max-width: 768px) {
 .profile{

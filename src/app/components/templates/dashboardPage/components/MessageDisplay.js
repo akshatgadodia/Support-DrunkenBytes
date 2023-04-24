@@ -9,7 +9,7 @@ const MessageDisplay = props => {
   if (props.isRead) style = `${styles.mainDiv} ${styles.read}`;
   else style = `${styles.mainDiv}`;
   return (
-    <Link href={`/messages/${props.id}`} className={style}>
+    <Link href={`/tickets/${props.id}`} className={style}>
       <div className={styles.insideDiv}>
         <Avatar
           style={{

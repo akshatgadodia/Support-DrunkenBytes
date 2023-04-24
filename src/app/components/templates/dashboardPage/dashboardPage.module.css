@@ -99,7 +99,8 @@
   padding: 0 !important;
   margin: 0 !important;
   display: flex !important;
-  justify-content: center !important;
+  justify-content: flex-start !important;
+  height: 498px !important;
   max-height: 498px !important;
   color: var(--black) !important;
 }
@@ -112,6 +113,7 @@
   flex-direction: column;
   justify-content: center !important;
   align-items: flex-start;
+  height: 498px !important;
   max-height: 498px !important;
   color: var(--black) !important;
 }
@@ -122,6 +124,7 @@
   border: none;
   color: var(--white);
   cursor: pointer;
+  align-self: flex-end;
 }
 .loadMoreButton:hover {
   opacity: 0.9;

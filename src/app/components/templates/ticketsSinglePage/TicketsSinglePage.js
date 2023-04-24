@@ -3,13 +3,8 @@ import styles from "./ticketsSinglePage.module.css";
 import { useHttpClient } from "@/app/hooks/useHttpClient";
 import Head from "next/head";
 import SkeletonLoader from "../../modules/SkeletonLoader";
-import {
-  Button,
-  Form,
-  Input,
-  Spin,
-  notification,
-} from "antd";
+import { Button, Form, Input, Spin, notification, Modal } from "antd";
+import Link from "next/link";
 
 const ProfilePage = (props) => {
   const { sendRequest, isLoading, error } = useHttpClient();
@@ -31,7 +26,8 @@ const ProfilePage = (props) => {
         `/ticket/${props.id}/reply`,
         "PUT",
         JSON.stringify({
-          message: values.reply
+          message: values.reply,
+          status: values.status,
         })
       );
       if (!error) {
@@ -39,14 +35,40 @@ const ProfilePage = (props) => {
           message: "Success",
           description: "Replied Successfully",
           placement: "top",
-          className: "error-notification"
+          className: "error-notification",
         });
         form.resetFields();
-        setRefresh(true);
+        setRefresh(!refresh);
       }
     } catch (err) {}
   };
-
+  const closeTicket = async () => {
+    Modal.confirm({
+      title: "Confirm",
+      content: `Are you sure that you want to close this ticket?`,
+      okText: "Yes",
+      cancelText: "No",
+      className: "confirm-modal",
+      async onOk() {
+        try {
+          await sendRequest(`/ticket/${props.id}/close/`, "PUT", JSON.stringify({
+            message: "This Ticket has been closed",
+            status: "Ticket closed"
+          }));
+          if (!error) {
+            notification.success({
+              message: "Success",
+              description: "Ticket Closed Successfully",
+              placement: "top",
+              className: "error-notification",
+            });
+            setRefresh(!refresh);
+          }
+        } catch (err) {}
+      },
+      onCancel() {},
+    });
+  };
   return (
     <>
       <Head>
@@ -64,13 +86,19 @@ const ProfilePage = (props) => {
           property="og:description"
           content="View information about your ticket, chat history with support, and reply to support inquiries. Get personalized assistance for your NFT-related issues at Drunken Bytes."
         />
-        <meta property="og:image" content="https://drunkenbytes.vercel.app/images/page-shots/ticket.png" />
+        <meta
+          property="og:image"
+          content="https://drunkenbytes.vercel.app/images/page-shots/ticket.png"
+        />
         <meta name="twitter:title" content="Ticket | Drunken Bytes" />
         <meta
           name="twitter:description"
           content="View information about your ticket, chat history with support, and reply to support inquiries. Get personalized assistance for your NFT-related issues at Drunken Bytes."
         />
-        <meta name="twitter:image" content="https://drunkenbytes.vercel.app/images/page-shots/ticket.png" />
+        <meta
+          name="twitter:image"
+          content="https://drunkenbytes.vercel.app/images/page-shots/ticket.png"
+        />
         <link rel="canonical" href="https://drunkenbytes.vercel.app/tickets" />
         <link rel="og:url" href="https://drunkenbytes.vercel.app/tickets" />
       </Head>
@@ -81,6 +109,18 @@ const ProfilePage = (props) => {
           <div className={styles.profile}>
             <h1 className={styles.heading}>Ticket Conversation</h1>
             <div className={styles.informationDiv}>
+              <div className={styles.information}>
+                <p className={styles.title}>Created By:</p>
+                <p className={styles.value}>
+                  {ticketData?.createdBy?.name !== undefined ? (
+                    <Link href={`/users/${ticketData.createdBy._id}`}>
+                      {ticketData?.createdBy?.name}
+                    </Link>
+                  ) : (
+                    ticketData.name
+                  )}
+                </p>
+              </div>
               <div className={styles.information}>
                 <p className={styles.title}>Subject:</p>
                 <p className={styles.value}>{ticketData.subject}</p>
@@ -112,7 +152,9 @@ const ProfilePage = (props) => {
                   return (
                     <div className={styles.container} key={idx}>
                       <div className={styles.nameDiv}>
-                        <p className={styles.title}>{data.sender.name}</p>
+                        <p className={styles.title}>
+                          {data?.sender?.name ?? ticketData.name}
+                        </p>
                         <p className={styles.value}>
                           {new Date(data.createdAt).getDate() +
                             "/" +
@@ -133,9 +175,11 @@ const ProfilePage = (props) => {
                 else
                   return (
                     <div className={styles.container} key={idx}>
-                      <div className={styles.messageDiv}></div>
+                      <div className={styles.messageDiv}>{data.message}</div>
                       <div className={styles.nameDiv}>
-                        <p className={styles.title}>{data.sender.name}</p>
+                        <p className={styles.title}>
+                          <Link href={`/support-user/${data.sender.name}`}>{data.sender.name}</Link>
+                        </p>
                         <p className={styles.value}>
                           {new Date(data.createdAt).getDate() +
                             "/" +
@@ -154,46 +198,92 @@ const ProfilePage = (props) => {
                   );
               })}
             </div>
-            {!ticketData.isSolved && (
-              <div className={styles.replyDiv}>
-                <h2>Reply</h2>
-                <Form
-                  scrollToFirstError
-                  layout="vertical"
-                  name="basic"
-                  form={form}
-                  style={{ maxWidth: "100%" }}
-                  onFinish={onFinish}
-                  autoComplete="on"
-                  className={styles.form}
-                >
-                  <Form.Item
-                    name="reply"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Reply Message!",
-                      },
-                    ]}
+            {!ticketData.isSolved &&
+              ticketData?.createdBy?.name !== undefined && (
+                <div className={styles.replyDiv}>
+                  <h2>Reply</h2>
+                  <Form
+                    scrollToFirstError
+                    layout="vertical"
+                    name="basic"
+                    form={form}
+                    style={{ maxWidth: "100%" }}
+                    onFinish={onFinish}
+                    autoComplete="on"
+                    className={styles.form}
                   >
-                    <Input.TextArea
-                      className={styles.input}
-                      autoSize={{ minRows: 4, maxRows: 20 }}
-                    />
-                  </Form.Item>
-
-                  <Form.Item className={styles.formItem}>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      className={styles.button}
+                    <Form.Item label="Message"
+                      name="reply"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input Reply Message!",
+                        },
+                      ]}
                     >
-                      SUBMIT
-                    </Button>
-                  </Form.Item>
-                </Form>
-              </div>
-            )}
+                      <Input.TextArea
+                        className={styles.input}
+                        autoSize={{ minRows: 4, maxRows: 20 }}
+                      />
+                    </Form.Item>
+                    <Form.Item label="Status"
+                      name="status"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input Status!",
+                        },
+                      ]}
+                    >
+                      <Input
+                        className={styles.input}
+                      />
+                    </Form.Item>
+                    <Form.Item className={styles.formItem}>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className={styles.button}
+                      >
+                        SUBMIT
+                      </Button>
+                    </Form.Item>
+                  </Form>
+                </div>
+              )}
+            {!ticketData.isSolved &&
+              ticketData?.createdBy?.name === undefined && (
+                <div className={styles.replyDiv}>
+                  <p className={styles.informationParagraph}>
+                    We regret to inform you that the business or person you are
+                    trying to reach is not registered on our website. Therefore,
+                    we advise you to contact them directly through the provided
+                    email or phone number. Kindly note that once you have
+                    established contact, please click the button below to close
+                    this ticket. Thank you for your understanding.
+                  </p>
+                  <Form
+                    scrollToFirstError
+                    layout="vertical"
+                    name="basic"
+                    form={form}
+                    style={{ maxWidth: "100%" }}
+                    onFinish={closeTicket}
+                    autoComplete="on"
+                    className={styles.form}
+                  >
+                    <Form.Item className={styles.formItem}>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className={styles.button}
+                      >
+                        Close Ticket
+                      </Button>
+                    </Form.Item>
+                  </Form>
+                </div>
+              )}
           </div>
         </Spin>
       )}

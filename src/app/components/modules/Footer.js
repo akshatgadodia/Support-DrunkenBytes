@@ -17,51 +17,54 @@ const Footer = () => {
         <div className={styles.containersContainer}>
           <div className={styles.container}>
             <p>Company</p>
-            <Link href="" className={styles.containerLinks}>
+            <a href="https://drunkenbytes.vercel.app/about" target="_blank" className={styles.containerLinks}>
               About
-            </Link>
+            </a>
+            <a href="https://drunkenbytes.vercel.app/careers" target="_blank" className={styles.containerLinks}>
+              Careers
+            </a>
           </div>
           <div className={styles.container}>
             <p>My Account</p>
-            <Link href="" className={styles.containerLinks}>
+            <Link href="/profile" className={styles.containerLinks}>
               Profile
             </Link>
-            <Link href="" className={styles.containerLinks}>
+            <Link href="/change-password" className={styles.containerLinks}>
               Change Password
             </Link>
           </div>
           <div className={styles.container}>
             <p>Product</p>
-            <Link href="" className={styles.containerLinks}>
+            <a href="https://drunkenbytes.vercel.app/pricing" target="_blank" className={styles.containerLinks}>
               Pricing
-            </Link>
-            <Link href="" className={styles.containerLinks}>
+            </a>
+            <a href="https://drunkenbytes.vercel.app/why-choose-us" target="_blank" className={styles.containerLinks}>
               Why Choose Us?
-            </Link>
+            </a>
           </div>
           <div className={styles.container}>
             <p>Docs & Help</p>
-            <Link href="" className={styles.containerLinks}>
+            <a href="https://drunkenbytes.vercel.app/documentation" target="_blank" className={styles.containerLinks}>
               Documentation
-            </Link>
-            <Link href="" className={styles.containerLinks}>
+            </a>
+            <Link href="/blogs" className={styles.containerLinks}>
               Blogs
             </Link>
-            <Link href="" className={styles.containerLinks}>
+            <Link href="/help-center" className={styles.containerLinks}>
               Help Center
             </Link>
-            <Link href="" className={styles.containerLinks}>
+            <a href="https://drunkenbytes.vercel.app/faq" target="_blank" className={styles.containerLinks}>
               FAQ
-            </Link>
+            </a>
           </div>
           <div className={styles.container}>
             <p>Get in Touch</p>
-            <Link href="" className={styles.containerLinks}>
+            <a href="https://drunkenbytes.vercel.app/contact-us" target="_blank" className={styles.containerLinks}>
               Contact Us
-            </Link>
-            <Link href="" className={styles.containerLinks}>
-              Get a Quote
-            </Link>
+            </a>
+            <a href="https://drunkenbytes.vercel.app/raise-issue" target="_blank" className={styles.containerLinks}>
+              Raise Issue
+            </a>
           </div>
         </div>
       </div>
@@ -70,10 +73,10 @@ const Footer = () => {
           © {new Date().getFullYear()} Drunken Bytes. All Rights Reserved.
         </p>
         <div className={styles.policyAndTerms}>
-          <Link href="/privacy-policy" className={styles.policyAndTermsLinks}>
+          <Link href="https://drunkenbytes.vercel.app/privacy-policy" className={styles.policyAndTermsLinks}>
             Privacy Policy
           </Link>
-          <Link href="/terms-of-service" className={styles.policyAndTermsLinks}>
+          <Link href="https://drunkenbytes.vercel.app/terms-of-service" className={styles.policyAndTermsLinks}>
             Terms of Service
           </Link>
         </div>
