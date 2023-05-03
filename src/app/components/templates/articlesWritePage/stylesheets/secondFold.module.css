@@ -1,4 +1,4 @@
-.writeArticle {
+.secondFold {
   width: 100%;
   padding: 50px 10vw;
   min-height: 100vh;
@@ -10,10 +10,6 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-.writeArticle h1 {
-  margin: 0 !important;
-  padding: 0 !important;
 }
 .p {
   color: var(--footerText);
@@ -54,10 +50,10 @@
 }
 
 @media only screen and (max-width: 768px) {
-  .writeArticle {
-    padding: 20px 5vw;
+  .secondFold {
+    padding: 40px 5vw;
   }
-  .writeArticle p {
+  .secondFold p {
     margin-bottom: 10px;
   }
 }

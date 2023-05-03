@@ -1,4 +1,4 @@
-.writeBlog {
+.secondFold {
   width: 100%;
   padding: 50px 10vw;
   min-height: 100vh;
@@ -11,16 +11,12 @@
   align-items: center;
   flex-direction: column;
 }
-.writeBlog h1 {
-  margin: 0 !important;
-  padding: 0 !important;
-}
 .p {
   color: var(--footerText);
   margin-top: 5px;
   margin-bottom: 20px;
 }
-.BlogDiv {
+.blogDiv {
   background-color: var(--white) !important;
   border-radius: 4px;
   padding: 40px 20px;
@@ -54,10 +50,10 @@
 }
 
 @media only screen and (max-width: 768px) {
-  .writeBlog {
-    padding: 20px 5vw;
+  .secondFold {
+    padding: 40px 5vw;
   }
-  .writeBlog p {
+  .secondFold p {
     margin-bottom: 10px;
   }
 }

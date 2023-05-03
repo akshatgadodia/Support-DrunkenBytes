@@ -3,7 +3,7 @@ import Head from "next/head";
 import FirstFold from "./components/FirstFold";
 import SecondFold from './components/SecondFold';
 
-const HelpCenterPage = () => {
+const HelpCenterPage = (props) => {
   return (
     <div>
       <Head>
@@ -21,7 +21,7 @@ const HelpCenterPage = () => {
         <meta property="og:url" content="https://drunkenbytes.vercel.app/help-center"/>
       </Head>
       <FirstFold />
-      <SecondFold />
+      <SecondFold articlesData={props.articlesData} totalArticles={props.totalArticles}/>
     </div>
   );
 };

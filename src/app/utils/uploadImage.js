@@ -1,9 +1,9 @@
 import baseURL from "@/app/constants/baseURL";
 
-export const uploadImage = async (file)=>{
+export const uploadImage = async (file, folder)=>{
     const formData = new FormData();
     formData.append("image", file);
-    const result = await fetch(`${baseURL}/image`,
+    const result = await fetch(`${baseURL}/image/upload-image?&folder=${folder}`,
     {
       method:"POST",
       body: formData,
@@ -19,4 +19,14 @@ export const uploadImage = async (file)=>{
         "url": `${baseURL}${resultData.data.url}`
       }
     }
-  }
+}
+
+export const deleteImage = async (name, folder)=>{
+  const result = await fetch(`${baseURL}/image/delete-image?name=${name}&folder=${folder}`,
+  {
+    method:"DELETE",
+    credentials: "include"
+  })
+  const resultData = await result.json();
+  return resultData;
+}

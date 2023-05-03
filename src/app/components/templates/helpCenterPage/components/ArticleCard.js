@@ -1,15 +1,21 @@
 import React from 'react'
 import styles from "../stylesheets/articleCard.module.css";
+import Link from "next/link";
 
-const ArticleCard = () => {
+const ArticleCard = (props) => {
+    function truncateText(text) {
+        if (text.length <= 200) {
+          return text;
+        } else {
+          return text.substr(0, 200) + "...";
+        }
+      }
     return (
-        <div className={styles.articleCard}>
-            <div className={styles.icon}>ICON</div>
-            <h4 className={styles.heading}>HEADINg</h4>
-            <p className={styles.paragraph}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita numquam libero hic molestias porro nobis neque eius 
-            blanditiis, soluta a non consequatur corrupti quisquam obcaecati in nam? Harum, quis optio.</p>
-        </div>
+        <Link className={styles.articleCard} href={`/articles/view/${props.url}`}>
+            <img className={styles.icon} src={props.image}></img>
+            <h4 className={styles.heading}>{props.title}</h4>
+            <p className={styles.paragraph}>{truncateText(props.description)}</p>
+        </Link>
     )
 }
 

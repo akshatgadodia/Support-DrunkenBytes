@@ -1,14 +1,27 @@
 import React from "react";
-import styles from "./blogsAllPage.module.css";
-import Head from 'next/head';
+import Head from "next/head";
+import FirstFold from "./components/FirstFold";
+import SecondFold from './components/SecondFold';
 
-const BlogsAllPage = () => {
+const BlogsAllPage = (props) => {
   return (
-    <div className={styles.supportLogin}>
-    <Head>
-      <title>Articles | Support Drunken Bytes</title>
-    </Head>
-      Articles
+    <div>
+      <Head>
+        <title>Blogs | Drunken Bytes</title>
+        <meta name="description" content="Looking for help with our products and services? Visit our Help Center for answers to frequently asked questions, tutorials, and guides." />
+        <meta name="keywords" content="Drunken Bytes, help center, customer support, FAQs, tutorials, guides." />
+        <meta property="og:title" content="Drunken Bytes" />
+        <meta property="og:description" content="Looking for help with our products and services? Visit our Help Center for answers to frequently asked questions, tutorials, and guides." />
+        <meta property="og:image" content="https://drunkenbytes.vercel.app/images/page-shots/help-center.png" />
+        <meta name="twitter:title" content="Drunken Bytes" />
+        <meta name="twitter:description" content="Looking for help with our products and services? Visit our Help Center for answers to frequently asked questions, tutorials, and guides." />
+        <meta name="twitter:image" content="https://drunkenbytes.vercel.app/images/page-shots/help-center.png"/>
+        <link rel="canonical" href="https://drunkenbytes.vercel.app/help-center" />
+        <meta property="og:url" content="https://drunkenbytes.vercel.app/help-center"/>
+        <meta property="og:url" content="https://drunkenbytes.vercel.app/help-center"/>
+      </Head>
+      <FirstFold />
+      <SecondFold blogsData={props.blogsData} totalBlogs={props.totalBlogs}/>
     </div>
   );
 };

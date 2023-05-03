@@ -111,7 +111,7 @@ const EDITOR_JS_TOOLS = {
         async uploadByFile(file) {
           const formData = new FormData();
           formData.append("image", file);
-          const result = await fetch(`${baseURL}/image`,
+          const result = await fetch(`${baseURL}/image/upload-image?&folder=resources`,
           {
             method:"POST",
             body: formData,

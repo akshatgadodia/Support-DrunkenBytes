@@ -1,16 +1,18 @@
-import React, { useContext } from "react";
-import styles from "./blogsPage.module.css";
-import Head from 'next/head';
+import React from "react";
+import Head from "next/head";
+import FirstFold from "./components/FirstFold";
+import SecondFold from "./components/SecondFold";
 
-const BlogsPage = () => {
+const Blog = (props) => {
   return (
-    <div className={styles.supportBlogsPage}>
-    <Head>
-      <title>Blogs | Support Drunken Bytes</title>
-    </Head>
-      Blogs Page
+    <div>
+      <Head>
+        <title>{props.blogData.title} | Support Drunken Bytes</title>
+      </Head>
+      <FirstFold blogData={props.blogData} />
+      <SecondFold blogData={props.blogData} />
     </div>
   );
 };
 
-export default BlogsPage;
+export default Blog;

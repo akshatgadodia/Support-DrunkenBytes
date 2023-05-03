@@ -9,11 +9,6 @@
     background-color: rgba(238, 243, 245, 1);
     background-color: var(--white);
 }
-.heading{
-  font-weight: 700;
-  font-size: 30px;
-  padding-left: 10px;
-}
 .infiniteScrollDiv{
   padding: 10px;
   padding-bottom: 5px;
@@ -21,7 +16,7 @@
   flex-direction: column;
   gap: 30px;
 }
-.articlesDiv{
+.blogsDiv{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;

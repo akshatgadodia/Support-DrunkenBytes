@@ -50,7 +50,7 @@
         {
           "key": "4-B",
           "title": "View All Articles",
-          "link": "/articles"
+          "link": "/help-center"
         }
       ]
     },
@@ -170,7 +170,7 @@
         {
           "key": "1-A",
           "title": "View All Articles",
-          "link": "/articles"
+          "link": "/help-center"
         }
       ]
     },

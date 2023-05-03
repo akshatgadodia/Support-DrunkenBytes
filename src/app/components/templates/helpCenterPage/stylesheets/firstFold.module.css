@@ -1,13 +1,19 @@
 .firstFold {
+  position: relative;
+  top: -80px;
+  right: 0;
+  left: 0;
   width: 100%;
   padding: 50px 10vw;
   display: flex;
+  padding-top: calc(50px + 80px);
   justify-content: space-between;
   align-items: center;
-  background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: relative;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
+  object-fit: cover;
+  margin-bottom: -80px;
 }
 .mainDiv{
   display: flex;
@@ -15,8 +21,9 @@
 }
 .heading {
   font-size: 50px;
+  line-height: normal;
   margin-top: 0;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-weight: 600;
 }
 .subParagraph {
@@ -24,7 +31,7 @@
   font-family: Hauora, sans-serif;
   letter-spacing: 0.3px;
   color: var(--footerText);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 20px;
   max-width: 450px;
 }
@@ -42,5 +49,8 @@
     align-items: center;
     text-align: center;
     flex-direction: column;
+  }
+  .firstFold img{
+    max-width: 100%;
   }
 }
