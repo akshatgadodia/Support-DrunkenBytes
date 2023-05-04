@@ -80,6 +80,42 @@
           "link": "/tickets"
         }
       ]
+    },
+    {
+      "key": "7",
+      "title": "Images",
+      "data": [
+        {
+          "key": "7-A",
+          "newTab": true,
+          "title": "Download All Images",
+          "link": "https://api-drunkenbytes.onrender.com/v1/download/download-images-folder"
+        }
+      ]
+    },
+    {
+      "key": "8",
+      "title": "Logs",
+      "data": [
+        {
+          "key": "8-A",
+          "newTab": true,
+          "title": "View Access Log",
+          "link": "https://api-drunkenbytes.onrender.com/v1/logs/access.log"
+        },
+        {
+          "key": "8-B",
+          "newTab": true,
+          "title": "View Error Log",
+          "link": "https://api-drunkenbytes.onrender.com/v1/logs/error.log"
+        },
+        {
+          "key": "8-C",
+          "newTab": true,
+          "title": "Download All Logs",
+          "link": "https://api-drunkenbytes.onrender.com/v1/download/download-log-files"
+        }
+      ]
     }
   ],
   "SUPPORT": [

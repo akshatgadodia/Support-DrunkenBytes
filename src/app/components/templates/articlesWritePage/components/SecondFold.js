@@ -224,11 +224,17 @@ const SecondFold = (props) => {
                 autoSize={{ minRows: 4, maxRows: 20 }}
               />
             </Form.Item>
-            <Editor
+            {(props.mode === "edit" && fileList.length > 0) && <Editor
               data={articleData}
               setData={setArticleData}
               editorCore={editorCore}
-            />
+            />}
+            {
+              props.mode === "write" && <Editor
+              data={articleData}
+              setData={setArticleData}
+              editorCore={editorCore}
+            />}
             <Form.Item>
               <Button
                 type="primary"

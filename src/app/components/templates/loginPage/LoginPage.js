@@ -42,6 +42,7 @@ const LoginPage = () => {
     <div className={styles.supportLogin}>
       <Head>
         <title>Support Login | Drunken Bytes</title>
+        <meta property="description" content="Log in to Drunken Bytes Support platform, exclusively for the company personnel. Access the tools and resources you need to provide exceptional customer support and enhance your team's productivity. Securely log in and get started now."/>
       </Head>
       <Loader isLoading={isLoading} />
       <div className={styles.container}>

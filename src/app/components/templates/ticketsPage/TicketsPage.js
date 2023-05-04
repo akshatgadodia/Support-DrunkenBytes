@@ -7,17 +7,8 @@ const TicketsPage = () => {
   return (
     <>
       <Head>
-        <title>Tickets | Drunken Bytes</title>
-        <meta name="description" content="View and track your raised tickets and their status on the Drunken Bytes Tickets page. Stay updated on your NFT, wallet, and other inquiries with our efficient ticket management system."></meta>
-        <meta name="keywords" content="Drunken Bytes Tickets, NFT tickets, ticket management, ticket tracking, raised tickets, ticket status, NFT support, wallet inquiries, customer support, NFT issues, NFT queries"/>
-        <meta property="og:title" content="NFT Transactions | Drunken Bytes" />
-        <meta property="og:description" content="View and track your raised tickets and their status on the Drunken Bytes Tickets page. Stay updated on your NFT, wallet, and other inquiries with our efficient ticket management system." />
-        <meta property="og:image" content="https://drunkenbytes.vercel.app/images/page-shots/tickets.png" />
-        <meta name="twitter:title" content="NFT Transactions | Drunken Bytes" />
-        <meta name="twitter:description" content="View and track your raised tickets and their status on the Drunken Bytes Tickets page. Stay updated on your NFT, wallet, and other inquiries with our efficient ticket management system." />
-        <meta name="twitter:image" content="https://drunkenbytes.vercel.app/images/page-shots/tickets.png"/>
-        <link rel="canonical" href="https://drunkenbytes.vercel.app/tickets" />
-        <link rel="og:url" href="https://drunkenbytes.vercel.app/tickets" />
+        <title>Tickets | Support Drunken Bytes</title>
+        <meta name="description" content="View and track your raised tickets and their status on the Support Drunken Bytes Tickets page. Stay updated on your NFT, wallet, and other inquiries with our efficient ticket management system."></meta>
       </Head>
       <FirstFold />
       <SecondFold />

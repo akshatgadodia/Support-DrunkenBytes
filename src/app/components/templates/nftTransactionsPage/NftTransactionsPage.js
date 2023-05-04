@@ -7,16 +7,8 @@ const NftTransactionsPage = () => {
   return (
     <>
       <Head>
-        <title>NFT Transactions | Drunken Bytes</title>
-        <meta name="description" content="View all your NFT transactions in one place on the Drunken Bytes transaction page. Keep track of your NFT sales, purchases, and transfers effortlessly."></meta>
-        <meta name="keywords" content="Drunken Bytes, NFT transactions, transaction history, NFT sales, NFT purchases, NFT transfers."/>
-        <meta property="og:title" content="NFT Transactions | Drunken Bytes" />
-        <meta property="og:description" content="View all your NFT transactions in one place on the Drunken Bytes transaction page. Keep track of your NFT sales, purchases, and transfers effortlessly." />
-        <meta property="og:image" content="" />
-        <meta name="twitter:title" content="NFT Transactions | Drunken Bytes" />
-        <meta name="twitter:description" content="View all your NFT transactions in one place on the Drunken Bytes transaction page. Keep track of your NFT sales, purchases, and transfers effortlessly." />
-        <meta name="twitter:image" content=""/>
-        <link rel="canonical" href="https://drunkenbytes.vercel.app/transactions/nft" />
+        <title>NFT Transactions | Support Drunken Bytes</title>
+        <meta name="description" content="View all NFT transactions in one place on the Support Drunken Bytes transaction page. Keep track of your NFT sales, purchases, and transfers effortlessly."></meta>
       </Head>
       <FirstFold />
       <SecondFold />

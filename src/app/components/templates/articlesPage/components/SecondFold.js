@@ -8,15 +8,12 @@ import AppContext from "@/app/context/AppContext";
 const SecondFold = (props) => {
   const [initialized, setInitialized] = useState(false);
   const { loggedInDetails } = useContext(AppContext);
-  console.log(props);
   useEffect(() => {
     setInitialized(true);
   }, []);
   let EditorParser = dynamic(
     () => import("@/app/components/elements/EditorParser"),
-    {
-      ssr: false,
-    }
+    { ssr: false, }
   );
   return (
     <div className={styles.secondFold}>
@@ -28,7 +25,9 @@ const SecondFold = (props) => {
             </Link>
           ))}
       </div>
-      {initialized && <EditorParser data={JSON.parse(props.articleData.content)} />}
+      {initialized && (
+        <EditorParser data={JSON.parse(props.articleData.content)} />
+      )}
     </div>
   );
 };

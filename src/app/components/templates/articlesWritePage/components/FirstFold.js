@@ -14,7 +14,7 @@ const FirstFold = (props) => {
         {props.mode === "write" ? "Write an Article" : "Edit Article"}
       </h1>
       <p className={styles.subParagraph}>
-        {props.mode === "write" ? "Write whats on your mind." : "Edit Article"}
+        {props.mode === "write" ? "Write whats on your mind." : "Edit existing articles with ease."}
       </p>
     </div>
   );

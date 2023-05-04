@@ -65,6 +65,7 @@ const Dashboard = props => {
     <div className={styles.dashboard}>
       <Head>
         <title>Support Dashboard | Drunken Bytes</title>
+        <meta name="description" content="Welcome to the Drunken Bytes Support Dashboard, the go-to destination for Drunken Bytes support users. Access resources, log support tickets, and stay up-to-date on product announcements and company news. Join the Drunken Bytes community today." />
       </Head>
       <div className={styles.performanceDiv}>
         <span>Business Performance</span>

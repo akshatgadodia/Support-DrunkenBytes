@@ -16,7 +16,7 @@ const SecondFold = (props) => {
     const result = await sendRequest(
       `/blog/get-blogs?page=${page}&size=${pageSize}`
     );
-    setHasMore((page - 1) * pageSize < props.totalBlogs);
+    setHasMore(page * pageSize < props.totalBlogs);
     setPage((prevPage) => prevPage + 1);
     setBlogsData([...blogsData, ...result.blogs]);
   };
@@ -27,7 +27,7 @@ const SecondFold = (props) => {
         className={styles.infiniteScrollDiv}
         dataLength={blogsData.length} //This is important field to render the next data
         next={fetchBlogs}
-        hasMore={hasMore || (page - 1) * pageSize < props.totalBlogs}
+        hasMore={hasMore}
         loader={<Spin tip="Fetching More blogs..." size="large" />}
         endMessage={
           <p style={{ textAlign: "center" }} className={styles.endMessage}>

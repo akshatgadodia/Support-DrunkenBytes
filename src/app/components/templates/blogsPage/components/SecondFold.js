@@ -8,7 +8,6 @@ import AppContext from "@/app/context/AppContext";
 const SecondFold = (props) => {
   const [initialized, setInitialized] = useState(false);
   const { loggedInDetails } = useContext(AppContext);
-  console.log(props);
   useEffect(() => {
     setInitialized(true);
   }, []);

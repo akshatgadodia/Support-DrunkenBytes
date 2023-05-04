@@ -208,11 +208,18 @@ const SecondFold = (props) => {
                 />
               </Modal>
             </Form.Item>
-            <Editor
+            {(props.mode === "edit" && fileList.length > 0) && <Editor
               data={blogData}
               setData={setBlogData}
               editorCore={editorCore}
-            />
+            />}
+            {
+              props.mode === "write" && <Editor
+              data={blogData}
+              setData={setBlogData}
+              editorCore={editorCore}
+            />}
+            
             <Form.Item>
               <Button
                 type="primary"

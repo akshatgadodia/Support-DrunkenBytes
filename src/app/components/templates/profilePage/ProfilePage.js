@@ -48,16 +48,11 @@ const ProfilePage = () => {
   return (
     <>
       <Head>
-        <title>Profile | Drunken Bytes</title>
+        <title>Profile | Support Drunken Bytes</title>
         <meta
           name="description"
-          content="Get access to your personalized profile page on Drunken Bytes. View your account information, update your profile, and manage your settings."
+          content="Get access to your personalized profile page on Support Drunken Bytes. View your account information, update your profile, and manage your settings."
         />
-        <meta
-          name="keywords"
-          content="profile page, account information, user settings, personalization, manage account, Drunken Bytes"
-        />
-        <link rel="canonical" href="https://drunkenbytes.vercel.app/profile" />
       </Head>
       {role === "" ? (
         <SkeletonLoader />

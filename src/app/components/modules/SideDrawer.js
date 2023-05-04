@@ -61,6 +61,7 @@ const SideDrawer = () => {
                         href={linkData.link}
                         key={linkData.key}
                         className="side-drawer-link"
+                        target={linkData.newTab ? "_blank" : "_self"}
                       >
                         {linkData.title}
                       </Link>

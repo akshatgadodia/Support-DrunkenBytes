@@ -16,7 +16,7 @@ const SecondFold = (props) => {
     const result = await sendRequest(
       `/article/get-articles?page=${page}&size=${pageSize}`
     );
-    setHasMore((page - 1) * pageSize < props.totalArticles);
+    setHasMore(page * pageSize < props.totalArticles);
     setPage((prevPage) => prevPage + 1);
     setArticlesData([...articlesData, ...result.articles]);
   };
@@ -28,7 +28,7 @@ const SecondFold = (props) => {
         className={styles.infiniteScrollDiv}
         dataLength={articlesData.length} //This is important field to render the next data
         next={fetchArticles}
-        hasMore={hasMore || (page - 1) * pageSize < props.totalArticles}
+        hasMore={hasMore}
         loader={<Spin tip="Fetching More Articles..." size="large" />}
         endMessage={
           <p style={{ textAlign: "center" }} className={styles.endMessage}>

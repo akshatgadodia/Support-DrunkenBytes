@@ -8,6 +8,7 @@ const Article = (props) => {
     <div>
       <Head>
         <title>{props.articleData.title} | Support Drunken Bytes</title>
+        <meta name="description" content={props.articleData.description} />
       </Head>
       <FirstFold articleData={props.articleData} />
       <SecondFold articleData={props.articleData} />
