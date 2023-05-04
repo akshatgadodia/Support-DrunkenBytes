@@ -1,31 +1,31 @@
 import React from "react";
 import DefaultLayout from "@/app/components/layouts/DefaultLayout";
-import BlogsWritePage from "@/app/components/templates/blogsWritePage/BlogsWritePage";
+import ArticlesWritePage from "@/app/components/templates/articlesWritePage/ArticlesWritePage";
 
-const EditBlog = (props) => {
+const EditArticle = (props) => {
   return (
     <DefaultLayout>
-      <BlogsWritePage mode="edit" blogUrl={props.blogUrl} />
+      <ArticlesWritePage mode="edit" articleUrl={props.articleUrl} />
     </DefaultLayout>
   );
 };
 
-export default EditBlog;
+export default EditArticle;
 
 export async function getStaticPaths() {
   return {
     paths: [
-      { params: { blogUrl: "how-to-create-an-account" } }
+      { params: { articleUrl: "how-to-create-an-account" } }
     ],
     fallback: "blocking", // false or 'blocking'
   };
 }
 
 export async function getStaticProps({ params }) {
-  const blogUrl = params.blogUrl;
+  const articleUrl = params.articleUrl;
   return {
     props: {
-      blogUrl,
+      articleUrl,
     },
   };
 }
