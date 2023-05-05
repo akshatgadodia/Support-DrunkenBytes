@@ -11,6 +11,7 @@ import {
   Select,
   DatePicker,
   notification,
+  Popover,
 } from "antd";
 import { useHttpClient } from "@/app/hooks/useHttpClient";
 import CreateNftModal from "@/app/components/modules/CreateNFTModal";
@@ -374,9 +375,13 @@ const SecondFold = () => {
                 aria-label="useCustomImage"
               />{" "}
               &nbsp;
-              {useCustomImage
-                ? "I want to provide my own NFT Image"
-                : "Use auto-generated NFT Image"}
+              {useCustomImage ? (
+                "I want to provide my own NFT Image"
+              ) : (
+                <span>
+                  Use <a href="https://support-drunkenbytes.vercel.app//images/NFTImage.png" target="_blank">Drunken Bytes NFT Image</a>
+                </span>
+              )}
               <br />
               {useCustomImage && (
                 <>

@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import styles from "./profilePage.module.css";
+import styles from "./supportUserSinglePage.module.css";
 import { useHttpClient } from "@/app/hooks/useHttpClient";
 import { Avatar } from "antd";
 import Head from "next/head";
 import SkeletonLoader from "../../modules/SkeletonLoader";
-import TicketTable from "./components/TicketTable";
-import CustomButton from "@/app/components/elements/CustomButton";
 
-const ProfilePage = () => {
+const ProfilePage = (props) => {
   const { error, sendRequest, clearError, isLoading } = useHttpClient();
-  const [clearFilters, setClearFilter] = useState(false);
   const [profileData, setProfileData] = useState({});
   const [role, setRole] = useState("");
   const [badgeColor, setBadgeColor] = useState({});
@@ -28,7 +25,9 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const sendFetchRequest = async () => {
-      const result = await sendRequest("/support-user/get-user-profile");
+      const result = await sendRequest(
+        `/support-user/get-support-user?supportUserId=${props.supportUserId}`
+      );
       if (Object.values(result.supportUser.roles).includes(1541)) {
         setRole("ADMIN");
       } else if (Object.values(result.supportUser.roles).includes(8458)) {
@@ -47,7 +46,7 @@ const ProfilePage = () => {
   return (
     <>
       <Head>
-        <title>Profile | Support Drunken Bytes</title>
+        <title>Support User | Support Drunken Bytes</title>
         <meta
           name="description"
           content="Get access to your personalized profile page on Support Drunken Bytes. View your account information, update your profile, and manage your settings."
@@ -57,13 +56,13 @@ const ProfilePage = () => {
         <SkeletonLoader />
       ) : (
         <div className={styles.profile}>
-          <h1 className={styles.heading}>Drunken Bytes Profile</h1>
+          <h1 className={styles.heading}>Drunken Bytes Support User</h1>
           <p className={styles.paragraph}>
-            Here you can find your profile information
+            Here you can find Support User information
           </p>
           <div className={styles.profileDiv}>
             <div className={styles.headerDiv}>
-              <strong>Support User Profile</strong>
+              <strong>Support User Information</strong>
             </div>
             <div className={styles.contentDiv}>
               <div className={styles.imageDiv}>
@@ -95,18 +94,6 @@ const ProfilePage = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div className={`${styles.secondFold} tab-pane`}>
-            <div className={styles.buttonDiv}>
-              <CustomButton
-                type="Gradient"
-                text="Clear All Filter"
-                onClickHandler={() => {
-                  setClearFilter(!clearFilters);
-                }}
-              />
-            </div>
-            <TicketTable clearFilters={clearFilters} />
           </div>
         </div>
       )}

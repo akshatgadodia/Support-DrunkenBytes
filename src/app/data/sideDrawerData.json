@@ -83,10 +83,21 @@
     },
     {
       "key": "7",
-      "title": "Images",
+      "title": "Support Users",
       "data": [
         {
           "key": "7-A",
+          "title": "View All Support Users",
+          "link": "/support-users"
+        }
+      ]
+    },
+    {
+      "key": "8",
+      "title": "Images",
+      "data": [
+        {
+          "key": "8-A",
           "newTab": true,
           "title": "Download All Images",
           "link": "https://api-drunkenbytes.onrender.com/v1/download/download-images-folder"
@@ -94,23 +105,23 @@
       ]
     },
     {
-      "key": "8",
+      "key": "9",
       "title": "Logs",
       "data": [
         {
-          "key": "8-A",
+          "key": "9-A",
           "newTab": true,
           "title": "View Access Log",
           "link": "https://api-drunkenbytes.onrender.com/v1/logs/access.log"
         },
         {
-          "key": "8-B",
+          "key": "9-B",
           "newTab": true,
           "title": "View Error Log",
           "link": "https://api-drunkenbytes.onrender.com/v1/logs/error.log"
         },
         {
-          "key": "8-C",
+          "key": "9-C",
           "newTab": true,
           "title": "Download All Logs",
           "link": "https://api-drunkenbytes.onrender.com/v1/download/download-log-files"
@@ -156,6 +167,17 @@
           "link": "/tickets"
         }
       ]
+    },
+    {
+      "key": "4",
+      "title": "Support Users",
+      "data": [
+        {
+          "key": "4-A",
+          "title": "View All Support Users",
+          "link": "/support-users"
+        }
+      ]
     }
   ],
   "SALES": [
@@ -196,6 +218,17 @@
           "link": "/tickets"
         }
       ]
+    },
+    {
+      "key": "4",
+      "title": "Support Users",
+      "data": [
+        {
+          "key": "4-A",
+          "title": "View All Support Users",
+          "link": "/support-users"
+        }
+      ]
     }
   ],
   "EDITOR": [
@@ -212,23 +245,45 @@
     },
     {
       "key": "2",
-      "title": "Blogs",
+      "title": "Users",
       "data": [
         {
           "key": "2-A",
+          "title": "Users",
+          "link": "/users"
+        }
+      ]
+    },
+    {
+      "key": "3",
+      "title": "Blogs",
+      "data": [
+        {
+          "key": "3-A",
           "title": "View All Blogs",
           "link": "/blogs"
         }
       ]
     },
     {
-      "key": "3",
+      "key": "4",
       "title": "Tickets",
       "data": [
         {
-          "key": "3-A",
+          "key": "4-A",
           "title": "View All Tickets",
           "link": "/tickets"
+        }
+      ]
+    },
+    {
+      "key": "5",
+      "title": "Support Users",
+      "data": [
+        {
+          "key": "5-A",
+          "title": "View All Support Users",
+          "link": "/support-users"
         }
       ]
     }
